@@ -1,0 +1,14 @@
+/*
+  PROGRAMA:
+  Serie de comandos en orden. Instrucciones.
+  SINTAXIS: Palabra clave 'program', y su cuerpo entre llaves.
+  COMANDOS PRIMITIVOS:
+  - Poner(...) <- Recibe un color, y pone 1 bolita del mismo.
+  - Sacar(...) <- Recibe un color, y SACA 1 bolita del mismo. Debe haber al menos 1 bolita de este.
+  - Mover(...) <- Recibe una dirección, y mueve el cabezal 1 posición hacia la misma.
+  - IrAlBorde(...) <- Recibe una dirección, y mueve el cabezal 1 posición hacia la misma.
+*/
+
+program {
+    // Programa declarado, sin ejecutarse ninguna acción. ESTO ES UN COMENTARIO.
+}

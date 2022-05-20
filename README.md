@@ -4,7 +4,7 @@
 
 ## Sobre el curso
 
-La materia tiene por objetivo introducir al estudiante en los conceptos fundamentales de la programación que se presentan transversales a diferentes lenguajes y paradigmas. Trabajamos con el lenguaje de programación <a href="https://es.wikipedia.org/wiki/Gobstones">Gobstones</a>.
+La materia tiene por objetivo introducir al estudiante en los conceptos fundamentales de la programación que se presentan transversales a diferentes lenguajes y paradigmas. Trabajamos con el lenguaje de programación <a href="https://gobstones.github.io/">Gobstones</a>.
 
 ## Conceptos
 

@@ -1,0 +1,51 @@
+program {
+   return( cantidadDeAzules_(celdaActual()) )
+}
+
+type Celda is record {
+    /*
+      PROPĆ“SITO: Modelar celdas del tablero.
+      INV REP: Los nĆŗmeros serĆ�n todos >= 0.
+    */
+     field cantidadDeAzules //NĆŗmeros.
+     field cantidadDeNegras
+     field cantidadDeRojas
+     field cantidadDeVerdes
+}
+
+function celdaActual() {
+    /*
+      PROPĆ“SITO: Indica el estado de la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una celda.
+    */
+        return(Celda(cantidadDeAzules <- nroBolitas(Azul),
+                     cantidadDeNegras <- nroBolitas(Negro),
+                     cantidadDeRojas <- nroBolitas(Rojo),
+                     cantidadDeVerdes <- nroBolitas(Verde)))
+}
+
+
+function cantidadDeAzules_(celda) {
+    /*
+      PROPÓSITO: Indica la cantidad de azules de la celda dada por el parámetro "celda".
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Un número.
+      PARÁMETROS *celda= Es de tipo celda.
+    */
+       return( cantidadDeAzules(celda) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

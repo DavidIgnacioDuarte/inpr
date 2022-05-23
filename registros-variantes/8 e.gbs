@@ -1,0 +1,117 @@
+program {
+    
+    return(tienenIgualSueldo_Y_ (Empleado(identidad <- 1,
+                                                   puesto <- Desarrollador,
+                                                   sueldo <- 1),
+                                          Empleado(identidad <- 2,
+                                                   puesto <- Operador,
+                                                   sueldo <- 1) ) )
+        
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar la identidad de un alumno.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo Fecha.
+    field esDonante //bool.
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha con día, mes y año.
+      INV REP: -"día" es un número entre 1 y 31.
+                "año" es un número entre 0 y 9999.
+    */
+     field dia //Tipo número.
+     field mes //Tipo Mes.
+     field año //Tipo número.
+}
+
+type Mes is variant {
+     case Enero {}
+     case Febrero {}
+     case Marzo {}
+     case Abril {}
+     case Mayo {}
+     case Junio {}
+     case Julio {}
+     case Agosto {}
+     case Septiembre {}
+     case Octubre {}
+     case Noviembre {}
+     case Diciembre {}
+}
+
+type Empleado is record {
+    /*
+      PROPÓSITO: Modelar empleados de una empresa.
+      INV REP: El número de "sueldo" debe ser >= 0.
+    */
+     field identidad //tipo Persona.
+     field puesto //tipo Puesto.
+     field sueldo //un número.
+}
+
+type Puesto is variant {
+    /* 
+    PROPÓSITO: modelar los diferentes puestos que hay dentro de una empresa de software.
+    */
+     case GestorDeProyecto {}
+     case LíderDeProyecto {}
+     case Desarrollador {}
+     case Operador {}
+}
+
+function categoriaDelPuesto_(puesto) {
+    /*
+      PROPÓSITO: Devuelve la categoría del dado "puesto".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *puesto= Valor de tipo "Puesto".
+      RESULTADO: Un número.
+    */
+        return( matching (puesto) select
+                4 on GestorDeProyecto
+                3 on LíderDeProyecto
+                2 on Desarrollador
+                1 on Operador 
+                boom otherwise)
+}
+
+function tienenIgualSueldo_Y_ (empleado1, empleado2) {
+    /*
+      PROPÓSITO: Indica si los dados "empleado1" y "empleado2" tienen igual sueldo.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *empleado1= Valor de tipo "Empleado".
+                  *empleado2= Valor de tipo "Empleado".
+      RESULTADO: Un booleano.
+    */
+        return( sueldo(empleado1) == sueldo(empleado2) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

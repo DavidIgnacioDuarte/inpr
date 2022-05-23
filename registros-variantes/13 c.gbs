@@ -1,0 +1,78 @@
+program {
+    
+    return(cuenta_ConTipoCambiadoSegúnDisposición( Cuenta(numeroDeCuenta <- 1234,
+                                                          tipoDeCuenta <- CuentaCorriente,
+                                                          nombreDeCliente <- "Felipe",
+                                                          tipoDeMoneda <- Pesos,
+                                                          saldo <- 1000000) ) )
+    
+}
+
+type Cuenta is record {
+    /*
+      PROPÓSITO: Modelar una cuenta bancaria.
+      INV REP: *El "saldo" se representa como centavos del "tipoDeMoneda".
+    */
+     field numeroDeCuenta //Un número.
+     field tipoDeCuenta //Un valor de tipo "TipoDeCuenta".
+     field nombreDeCliente //Un string.
+     field tipoDeMoneda //Un valor de tipo "Moneda".
+     field saldo //Un número.
+}
+
+type TipoDeCuenta is variant {
+    /* 
+      PROPÓSITO: modelar los diferentes tipos de cuenta que ofrece el banco.
+    */
+     case CuentaCorriente {}
+     case CajaDeAhorro {}
+     case CuentaSueldo {}
+}
+
+type Moneda is variant {
+    /* PROPÓSITO: modelar los diferentes tipos de moneda con los que trabaja el banco.
+    */
+     case Pesos {}
+     case Dólares {}
+     case Euros {}
+     case Reales {}
+}
+
+function cuenta_ConTipoCambiadoSegúnDisposición(cuenta) {
+    /*
+      PROPÓSITO: Cambia el tipo de cuenta bancaria de la dada "cuenta" a Caja de ahorro si el saldo
+      de la misma supera los 25000 pesos(2500000 centavos).
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS:*cuenta= Un valor de tipo "Cuenta".
+      RESULTADO: Una cuenta.
+    */
+        saldoDeCuenta := saldo(cuenta)
+        tipoDeCuentaActual := tipoDeCuenta(cuenta)
+        if (saldoDeCuenta > 2500000) {
+          tipoDeCuentaActual := CajaDeAhorro
+        }
+        return(Cuenta(cuenta | tipoDeCuenta <- tipoDeCuentaActual) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

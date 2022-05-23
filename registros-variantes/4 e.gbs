@@ -1,0 +1,49 @@
+program {
+        return(persona_ConSituaciónComoDonanteCambiada(Persona(dni <-1234567,
+                                                               domicilio <- 7654321,
+                                                               fechaDeNacimiento <-
+                                                            FechaDeNacimiento(dia <- 8,
+                                                                            mes <- 11,
+                                                                            año <- 1990),
+                                                                esDonante <- False) ) )
+}
+
+type Persona is record {
+    /*
+    */
+    field dni
+    field domicilio
+    field fechaDeNacimiento
+    field esDonante 
+}
+
+type FechaDeNacimiento is record {
+    field dia
+    field mes
+    field año
+}
+
+function persona_ConSituaciónComoDonanteCambiada(persona) {
+    /*
+      PROPÓSITO: Indica a la persona dada por "persona" con su situación como
+      donante cambiada.
+      PRECONDICIONES: Ninguna.
+      PARAMETROS: *persona= Un valor de tipo "Persona".
+      RESULTADO: Una persona.
+    */
+        return(Persona(dni <- dni(persona),
+                       domicilio <- domicilio(persona),
+                       fechaDeNacimiento <- fechaDeNacimiento(persona),
+                       esDonante <- situacionContrariaDonante_(persona) ) )
+}
+
+function situacionContrariaDonante_(persona) {
+    /*
+      PROPÓSITO: Indica la situacion contraria de ser donante de la "persona" dada.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *persona= Un valor de tipo "Persona".
+      RESULTADO: Un valor de verdad.
+    */
+        return(choose False when(esDonante(persona) == True)
+                      True otherwise)
+}

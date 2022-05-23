@@ -1,0 +1,55 @@
+program {
+        return (envidoCon_Y_((Carta(palo <- Espada, número <- 12)),
+                             (Carta(palo <- Espada, número <- 4))))
+}
+
+type Carta is record {
+    /*
+      PROPÓSITO: Modelar cartas españolas de truco.
+      INV REP= -el número está entre 1 y 7, o entre 10 y 12.
+    */
+    field palo //valor de tipo Palo
+    field número //valor de tipo Número
+}
+
+type Palo is variant {
+    /*
+      PROPÓSITO: Modelar palos de una carta.
+    */
+     case Bastos {}
+     case Copas {}
+     case Espada {}
+     case Oro {}
+}
+
+function envidoCon_Y_(carta1, carta2) {
+    /*
+      PROPÓSITO: Describe el valor del envido al sumar los valores de 2 cartas dadas como 'carta1'
+      y 'carta2'.
+      PRECONDICIONES: Deben haber 2 cartas del mismo palo en la celda actual.
+      PARÁMETROS: *carta1= Es de tipo Carta.
+                  *carta2= Es de tipo Carta.
+      RESULTADO: Un número.
+      OBSERVACIONES: Se suman los números de las cartas entre 1 y 7 con 20, y las figuras valen 0.
+    */
+        envido:=0
+        if(sonDelMismoPalo__(carta1, carta2)) {
+         envido:= envido + númeroDe_(carta1) + númeroDe_(carta2) + 20
+        }
+        return(envido)
+}
+
+function sonDelMismoPalo__(carta1, carta2) {
+    /*
+    */
+        return(palo(carta1) == palo(carta2))
+}
+
+function númeroDe_(carta) {
+    /*
+    */
+        return(choose 0 when (número(carta) >= 10)
+                      número(carta) otherwise)
+}
+
+

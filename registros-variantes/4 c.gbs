@@ -1,0 +1,93 @@
+program {
+    
+   return( persona_RegistradaCon_(Persona(dni <- sinAsignar(),
+                                          domicilio <- 9876543,
+                                          fechaDeNacimiento <- FechaDeNacimiento(dia <- 13,
+                                                                                 mes <- Enero,
+                                                                                 año <- 1997),
+                                          esDonante <- True),
+                                          1234567
+          ) )
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar una persona.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo FechaDeNacimiento.
+    field esDonante //bool.
+}
+
+type FechaDeNacimiento is record {
+    /*
+      PROPÓSITO: Modelar una fecha de nacimiento.
+      INV REP:*día= Debe ser un número del 1 al 31.
+              *año= Debe ser un número del 0 al 9999.
+    */
+    field dia //Un número.
+    field mes //Tipo Mes.
+    field año //Un número.
+}
+
+type Mes is variant {
+    case Enero {}
+    case Febrero {}
+    case Marzo {}
+    case Abril {}
+    case Mayo {}
+    case Junio {}
+    case Julio {}
+    case Agosto {}
+    case Septiembre {}
+    case Octubre {}
+    case Noviembre {}
+    case Diciembre {}
+}
+
+function persona_RegistradaCon_(personaConDniSinAsignar, dni) {
+    /*
+      PROPÓSITO: Describe a la dada "personaConDniSinAsignar" con el dado "dni".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *personaConDniSinAsignar= Valor de tipo persona.
+                  *dni= Es un string.
+      RESULTADO: Una persona.
+    */
+        return( Persona(dni <- (dni),
+                        domicilio <- domicilio(personaConDniSinAsignar),
+                        fechaDeNacimiento <- fechaDeNacimiento(personaConDniSinAsignar),
+                        esDonante <- esDonante(personaConDniSinAsignar)) )
+}
+
+
+function sinAsignar() {
+    /*
+      PROPÓSITO: Indica un string vacío.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Un string.
+    */
+        return(" ")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

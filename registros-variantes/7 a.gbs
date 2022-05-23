@@ -1,0 +1,100 @@
+program {
+    
+    return(alumno_IngresanteEn_Con (Persona( dni <- 1234567,
+                                             domicilio <- 1234567,
+                                             fechaDeNacimiento <- Fecha(dia <- 9,
+                                                                        mes <- Septiembre,
+                                                                        año <- 2000),
+                                             esDonante <- True ),
+                                    Fecha(dia <- 7,
+                                    mes <- Agosto,
+                                    año <- 2019),
+                                    40765) )
+    
+}
+
+type Alumno is record {
+    /*
+      PROPÓSITO: Modelar alumnos universitarios.
+      INV REP: *El "numeroDeLegajo" es un número de 5 dígitos.
+    */
+     field identidad //Tipo Persona.
+     field numeroDeLegajo //Tipo número.
+     field fechaDeIngreso //Tipo Fecha.
+     field materiasRendidas //Tipo número.
+     field materiasAprobadas //Tipo número.
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar la identidad de un alumno.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo Fecha.
+    field esDonante //bool.
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha con día, mes y año.
+      INV REP: -"día" es un número entre 1 y 31.
+                "año" es un número entre 0 y 9999.
+    */
+     field dia //Tipo número.
+     field mes //Tipo Mes.
+     field año //Tipo número.
+}
+
+type Mes is variant {
+     case Enero {}
+     case Febrero {}
+     case Marzo {}
+     case Abril {}
+     case Mayo {}
+     case Junio {}
+     case Julio {}
+     case Agosto {}
+     case Septiembre {}
+     case Octubre {}
+     case Noviembre {}
+     case Diciembre {}
+}
+
+function alumno_IngresanteEn_Con (persona, fechaDeIngreso, numeroDeLegajo) {
+    /*
+      PROPÓSITO: Describe a un alumno que ingresó en la dada "fechaDeIngreso" con el dado
+      "numeroDeLegajo" y no cursó aún ninguna materia.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *persona= Es un valor de tipo Persona.
+                  *fechaDeIngreso= Es un valor de tipo Fecha.
+                  *numeroDeLegajo= Es un número.
+      RESULTADO: Un Alumno.
+    */
+        return(Alumno(identidad <- Persona( dni <- dni(persona),
+                                            domicilio <- domicilio(persona),
+                                            fechaDeNacimiento <- fechaDeNacimiento(persona),
+                                            esDonante <- esDonante(persona)),
+                      numeroDeLegajo <- (numeroDeLegajo),
+                      fechaDeIngreso <- (fechaDeIngreso),
+                      materiasRendidas <- 0,
+                      materiasAprobadas <- 0) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

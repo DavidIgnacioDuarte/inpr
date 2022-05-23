@@ -1,0 +1,89 @@
+program {
+    
+        return( cuenta_ActualizadaTrasExtracciónDeCajeroDe_(Cuenta(numeroDeCuenta <- 1234,
+                                                            tipoDeCuenta <- CajaDeAhorro,
+                                                            nombreDeCliente <- "Ricardo",
+                                                            tipoDeMoneda <- Reales,
+                                                            saldo <- 360000),
+                                                            100000) )
+    
+}
+
+type Cuenta is record {
+    /*
+      PROPÓSITO: Modelar una cuenta bancaria.
+      INV REP: *El "saldo" se representa como centavos del "tipoDeMoneda".
+    */
+     field numeroDeCuenta //Un número.
+     field tipoDeCuenta //Un valor de tipo "TipoDeCuenta".
+     field nombreDeCliente //Un string.
+     field tipoDeMoneda //Un valor de tipo "Moneda".
+     field saldo //Un número.
+}
+
+type TipoDeCuenta is variant {
+    /* 
+      PROPÓSITO: modelar los diferentes tipos de cuenta que ofrece el banco.
+    */
+     case CuentaCorriente {}
+     case CajaDeAhorro {}
+     case CuentaSueldo {}
+}
+
+type Moneda is variant {
+    /* PROPÓSITO: modelar los diferentes tipos de moneda con los que trabaja el banco.
+    */
+     case Pesos {}
+     case Dólares {}
+     case Euros {}
+     case Reales {}
+}
+
+function saldoEnPesosDe_(cuenta) {
+    /*
+      PROPÓSITO: Describe el saldo de la dada "cuenta" en pesos.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *cuenta= Un valor de tipo "Cuenta".
+      RESULTADO: Un número.
+    */
+        saldoActual := saldo(cuenta)
+        if(saldoActual >= 0) {
+          saldoActual := saldoActual div 100
+        }
+        return( saldoActual div valorDeMoneda_EnPesos(tipoDeMoneda(cuenta)) )
+        
+}
+
+function valorDeMoneda_EnPesos(moneda) {
+    /*
+    */
+        return( matching (moneda) select
+                50 on Dólares
+                60 on Euros
+                15 on Reales
+                1 on Pesos 
+                boom otherwise)
+}
+
+function cuenta_ActualizadaTrasExtracciónDeCajeroDe_(cuenta, montoAExtraer) {
+    /*
+      PROPÓSITO: Describe a la dada "cuenta" con su saldo actualizado luego de extraer de éste el dado
+      "montoAExtraer".
+      PRECONDICIONES: El dado "montoAExtraer" debe ser del mismo tipo de moneda que el saldo de la dada
+      "cuenta", y el mismo valor debe ser menor al saldo y debe estar representado en centavos.
+      PARÁMETROS: *cuenta= Un valor de tipo "Cuenta".
+                  *montoAExtraer= Un número.
+      RESULTADO: Una Cuenta.
+    */
+        return( Cuenta(cuenta | saldo <- saldo(cuenta) - montoAExtraer) )
+}
+
+
+
+
+
+
+
+
+
+

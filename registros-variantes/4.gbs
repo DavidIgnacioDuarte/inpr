@@ -1,0 +1,23 @@
+program {
+    
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar una persona.
+      INV REP: DNI= Se representa con un número de 7 u 8 digitos.
+               DOMICILIO= Debe contener calle, 
+    */
+    field dni //string
+    field domicilio //string
+    field fechaDeNacimiento //fecha
+    field esDonante //bool
+}
+
+type Fecha is record {
+    /*
+    */
+    field día // Un número entre 1 y 31.
+    field mes // Un número entre 1 y 12.
+    field año // Un número entre 0 y 9999.
+}

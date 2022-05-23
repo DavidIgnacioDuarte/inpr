@@ -1,0 +1,49 @@
+program {
+    
+}
+
+type Celda is record {
+    /*
+      PROPÓSITO: Modelar celdas del tablero.
+      INV REP: Los números serán todos >= 0.
+    */
+     field cantidadDeAzules //Números.
+     field cantidadDeNegras
+     field cantidadDeRojas
+     field cantidadDeVerdes
+}
+
+function celdaActual() {
+    /*
+      PROPÓSITO: Indica el estado de la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una celda.
+    */
+        return(Celda(cantidadDeAzules <- nroBolitas(Azul),
+                     cantidadDeNegras <- nroBolitas(Negro),
+                     cantidadDeRojas <- nroBolitas(Rojo),
+                     cantidadDeVerdes <- nroBolitas(Verde)))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

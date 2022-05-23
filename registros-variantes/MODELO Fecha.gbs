@@ -1,0 +1,68 @@
+program {
+    
+    
+    
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha del calendario gregoriano.
+      INV REP: *El número del año debe ser del 0 al 9999.
+               *El número del dia debe ser:-del 1 al 30 en los meses
+                                                               Abril, Junio, Septiembre y Noviembre.
+                                           -del 1 al 31 en los meses
+                                                               Enero, Marzo, Mayo, Julio, Agosto, Octubre y Diciembre.
+                                           -del 1 al 28 en el mes Febrero,
+                                           exceptuando si el año es bisiesto, y este
+                                           tiene hasta 29 dias.
+      OBSERVACIONES: Un año es bisiesto si es divisible por 4 y no es divisible por 100, o bien,
+      es divisible por 100 y también divisible por 400.
+    */
+     field dia //número
+     field mes //tipo Mes.
+     field año //número
+}
+
+type Mes is variant {
+    /*
+      PROPÓSITO: Modelar meses del calendario.
+    */
+    case Enero {}
+    case Febrero {}
+    case Marzo {}
+    case Abril {}
+    case Mayo {}
+    case Junio {}
+    case Julio {}
+    case Agosto {}
+    case Septiembre {}
+    case Octubre {}
+    case Noviembre {}
+    case Diciembre {}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

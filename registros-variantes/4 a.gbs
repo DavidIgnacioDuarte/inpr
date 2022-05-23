@@ -1,0 +1,89 @@
+program {
+    
+   return( domicilio(Persona(dni <- 42777199,
+                             domicilio <- 5676,
+                             fechaDeNacimiento <- FechaDeNacimiento(dia <- 8,
+                                                                    mes <- Junio,
+                                                                    año <- 2000),
+                             esDonante <- True
+                             ))
+                             == 
+           domicilio(Persona(dni <- 28772557,
+                             domicilio <- 5676,
+                             fechaDeNacimiento <- FechaDeNacimiento(dia <- 16,
+                                                                    mes <- Abril,
+                                                                    año <- 1980),
+                             esDonante <- False
+                             ))
+           )
+   
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar una persona.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo FechaDeNacimiento.
+    field esDonante //bool.
+}
+
+type FechaDeNacimiento is record {
+    /*
+      PROPÓSITO: Modelar una fecha de nacimiento.
+      INV REP:*día= Debe ser un número del 1 al 31.
+              *año= Debe ser un número del 0 al 9999.
+    */
+    field dia //Un número.
+    field mes //Tipo Mes.
+    field año //Un número.
+}
+
+type Mes is variant {
+    case Enero {}
+    case Febrero {}
+    case Marzo {}
+    case Abril {}
+    case Mayo {}
+    case Junio {}
+    case Julio {}
+    case Agosto {}
+    case Septiembre {}
+    case Octubre {}
+    case Noviembre {}
+    case Diciembre {}
+}
+
+function sonConvivientes_Y_(persona1, persona2) {
+    /*
+      PROPÓSITO: Indica si las dadas "persona1" y "persona2" viven en el mismo domicilio.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Un booleano.
+      PARÁMETROS: *persona1= Tipo persona.
+                  *persona2= Tipo persona.
+    */
+        return(domicilio(persona1) == domicilio(persona2))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

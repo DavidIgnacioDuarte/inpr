@@ -1,0 +1,37 @@
+program {
+        return (edadDe_Al_(Persona(dni <- 1234567,
+                                  domicilio <- 7654321,
+                                  fechaDeNacimiento <- FechaDeNacimiento(dia <- 8,
+                                                                         mes <- 11,
+                                                                         año <- 1989),
+                                  esDonante <- False),
+                                  FechaDeNacimiento(dia <- 9,
+                                                    mes <- 6,
+                                                    año <- 2013) ) )
+}
+
+type Persona is record {
+    /*
+    */
+    field dni
+    field domicilio
+    field fechaDeNacimiento
+    field esDonante 
+}
+
+type FechaDeNacimiento is record {
+    field dia
+    field mes
+    field año
+}
+
+function edadDe_Al_(persona, fecha) {
+    /*
+      PROPÓSITO: Describe la edad de la persona dada por "persona" nacida en la fecha dada por "fecha".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *persona= Un valor de tipo "Persona".
+                  *fecha= Un valor de tipo "FechaDeNacimiento".
+      RESULTADO: Un número.
+    */
+        return( año(fecha) - año(fechaDeNacimiento(persona)) )
+}

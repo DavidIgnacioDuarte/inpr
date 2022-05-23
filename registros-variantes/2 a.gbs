@@ -1,0 +1,34 @@
+program {
+        return (esFigura_(Carta(palo <- Oro, número <-12)))
+}
+
+type Carta is record {
+    /*
+      PROPÓSITO: Modelar cartas españolas de truco.
+      INV REP= -el número está entre 1 y 7, o entre 10 y 12.
+    */
+    field palo //valor de tipo Palo
+    field número //valor de tipo Número
+}
+
+type Palo is variant {
+    /*
+      PROPÓSITO: Modelar palos de una carta.
+    */
+     case Bastos {}
+     case Copas {}
+     case Espada {}
+     case Oro {}
+}
+
+function esFigura_(carta) {
+    /*
+      PROPÓSITO: Dada una 'carta', determina si ésta es figura.
+      PRECONDICIONES: Que haya una Carta en la celda actual.
+      RESULTADO: Un booleano.
+      PARÁMETROS: *carta= Es un valor de tipo Carta.
+      OBSERVACIONES: Es figura cuando el número de la carta dada está entre los valores 10 y 12.
+    */
+        return(número(carta) >= 10) 
+}
+

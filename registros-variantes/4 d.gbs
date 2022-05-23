@@ -1,0 +1,84 @@
+program {
+    
+   return( persona_ConDomicilioNuevoEn_(Persona(dni <- 1234567,
+                                                domicilio <- 1234567,
+                                                fechaDeNacimiento <- FechaDeNacimiento(dia <- 9,
+                                                                                       mes <- Febrero,
+                                                                                       año <- 1990),
+                                                esDonante <- True),
+                                                9876543)
+           )
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar una persona.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo FechaDeNacimiento.
+    field esDonante //bool.
+}
+
+type FechaDeNacimiento is record {
+    /*
+      PROPÓSITO: Modelar una fecha de nacimiento.
+      INV REP:*día= Debe ser un número del 1 al 31.
+              *año= Debe ser un número del 0 al 9999.
+    */
+    field dia //Un número.
+    field mes //Tipo Mes.
+    field año //Un número.
+}
+
+type Mes is variant {
+    case Enero {}
+    case Febrero {}
+    case Marzo {}
+    case Abril {}
+    case Mayo {}
+    case Junio {}
+    case Julio {}
+    case Agosto {}
+    case Septiembre {}
+    case Octubre {}
+    case Noviembre {}
+    case Diciembre {}
+}
+
+function persona_ConDomicilioNuevoEn_(persona, domicilioNuevo) {
+    /*
+      PROPÓSITO: Describe a la persona dada por "persona" con el domicilio "domicilioNuevo".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *persona= Valor de tipo persona.
+                  *domicilioNuevo= Es un string.
+      RESULTADO: Una persona.
+    */
+        return( Persona(dni <- dni(persona),
+                        domicilio <- domicilioNuevo,
+                        fechaDeNacimiento <- fechaDeNacimiento(persona),
+                        esDonante <- esDonante(persona)) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

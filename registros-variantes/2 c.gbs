@@ -1,0 +1,76 @@
+program {
+    
+}
+
+type Carta is record {
+    /*
+      PROPÓSITO: Modelar cartas españolas de truco.
+      INV REP= -el número está entre 1 y 7, o entre 10 y 12.
+    */
+    field palo //valor de tipo Palo
+    field número //valor de tipo Número
+}
+
+type Palo is variant {
+    /*
+      PROPÓSITO: Modelar palos de una carta.
+    */
+     case Bastos {}
+     case Copas {}
+     case Espada {}
+     case Oro {}
+}
+
+function envidoCon_Y_mayorA_(carta1, carta2, cantidad) {
+    /*
+      PROPÓSITO: Indica si el valor del envido de las dadas carta1 y carta2 representa un valor mayor o igual al dado por 'cantidad'.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *carta1= Es de tipo Carta.
+                  *carta2= Es de tipo Carta.
+                  *cantidad= Es un número.
+    */
+        envido:=0
+        if(sonDelMismoPalo__(carta1, carta2)) {
+         envido:= envido + númeroDe_(carta1) + númeroDe_(carta2) + 20
+        }
+        envido:=envido
+        return(choose 
+                        
+}
+
+function sonDelMismoPalo__(carta1, carta2) {
+    /*
+    */
+        return(palo(carta1) == palo(carta2))
+}
+
+function númeroDe_(carta) {
+    /*
+    */
+        return(choose 0 when (número(carta) >= 10)
+                      número(carta) otherwise)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

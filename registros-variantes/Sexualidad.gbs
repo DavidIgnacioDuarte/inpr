@@ -1,0 +1,212 @@
+program {
+  return (hombreSegúnLaLógicaPatriarcal(), mujerSegúnLaLógicaPatriarcal())
+}
+
+type Sexualidad is record {
+  /* PROPÓSITO: modelar la sexualidad humana con una perspectiva
+                de diversidad de género
+     FUENTE: “¿Qué es la diversidad sexual?” 
+       publicado por la Colectiva Antipatriarcal Floreciendo en Fuga
+       https://www.youtube.com/watch?v=OqQm8nvEhUw
+  */
+  field sexoBiológico 
+         // de tipo Declarar(Sexo)
+  field identidadDeGénero
+         // de tipo Declarar(IdentidadDeGénero)
+  field orientación
+        // de tipo Declarar(OrientaciónSexual)
+  field expresiónDeGénero
+        // de tipo Declarar(Género)
+}
+
+type Declarar is variant {
+  /* PROPÓSITO: modelar valores que pueden declararse o no declararse
+     OBSERVACIÓN: al mencionar este tipo, se deberá consignar entre
+       paréntesis el tipo que se espera que tome el campo valor
+       Ej: Declarar(Número)
+  */
+  case Declarado   { 
+    field valor // del tipo que se indica al hablar de este tipo 
+                //  Ej: en Declarar(A), valor debe ser de tipo A
+  }
+  case NoDeclarado {}
+}
+
+type Sexo is variant {
+  /* PROPÓSITO: modelar los posibles valores del sexo biológico
+  */
+  case Hombre      {} // Genitales masculinos, cromosoma XY
+  case Mujer       {} // Genitales femeninos, cromosoma XX
+  case Intersexual {} // Genitales ambiguos, combinaciones de cromosomas diversos
+                      //   (XXY, X0, etc.)
+}
+
+type IdentidadDeGénero is variant {
+  /* PROPÓSITO: modelar los posibles valores de la identidad de género
+  */
+  case GéneroHombre {} // Se autopercibe como hombre
+  case GéneroMujer  {} // Se autoprecibe como mujer
+  case Bigénero     {} // Se autopercibe tanto hombre como mujer
+  case Demigénero   {} // Se autopercibe parcialmente hombre y parcialmente mujer
+  case Agénero      {} // Se autopercibe ni hombre ni mujer
+  case Fluído       {} // Se autopercibe a veces hombre, a veces mujer
+  case TercerSexo   {} // Se autopercibe ni hombre ni mujer ni con género
+}
+
+type OrientaciónSexual is variant {
+  /* PROPÓSITO: modelar los posibles valores de la orientación de género
+     INV.REP.: los campos de intensidad están entre 1 y 99
+  */
+  case Heterosexual  {} // Atracción por personas del otro 
+                        // sexo biológico (para Hombre/Mujer)
+  case Homosexual    {} // Atracción por personas del mismo
+                        // sexo biológico (para Hombre/Mujer)
+  case Bisexual      {  // Atracción por personas de ambos sexos
+     field intensidad   // - un número entre 1 y 99
+                        //   con 1 más cerca del otro sexo
+                        //   y 99 más cerca del mismo sexo
+    }
+  case Pansexualidad {} // Atracción por personas independientemente del
+                        // sexo biológico y de la identidad de género
+  case Asexualidad   {} // Sin atracción por ninguno
+}
+
+type Género is variant {
+  /* PROPÓSITO: modelar los posibles valores de la expresión de género
+     INV.REP.: los campos de intensidad están entre 1 y 99
+  */
+  case Masculino { 
+     field intensidad   // - un número entre 1 y 100
+                        //   con 100 totalmente masculino
+                        //   y 1 más cerca del andrógino
+    }
+  case Femenino  {
+     field intensidad   // - un número entre 1 y 100
+                        //   con 100 totalmente femenino
+                        //   y 1 más cerca del andrógino
+    }
+  case Andrógino {} // El punto medio entre masculino y femenino
+}
+
+function fueDeclarado(d) {
+  /* PROPÓSITO: indicar si el valor dado fue declarado
+     PRECONDICIONES: ninguna
+     PARÁMETRO: d, de tipo Declarado(A)
+     RESULTADO: un valor de verdad
+  */
+  return(d /= NoDeclarado())
+}
+
+function esTransexualidad_(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                corresponde a la transexualidad
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return((tieneSexoHombre(s) 
+       && tieneIdentidadDeGéneroMujer(s))
+      || (tieneSexoMujer(s)
+       && tieneIdentidadDeGéneroHombre(s))
+  )
+}
+
+function esCissexual_(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                corresponde a la cissexualidad
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return((tieneSexoHombre(s) 
+       && tieneIdentidadDeGéneroHombre(s))
+      || (tieneSexoMujer(s)
+       && tieneIdentidadDeGéneroMujer(s))
+  )
+}
+
+function tieneSexoHombre(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                indica que el sexo biológico es de Hombre
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return (sexoBiológico(s) == Declarado(valor <- Hombre))
+}
+
+function tieneSexoMujer(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                indica que el sexo biológico es de Mujer
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return (sexoBiológico(s) == Declarado(valor <- Mujer))
+}
+
+function tieneIdentidadDeGéneroHombre(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                indica que la identidad de género es de Hombre
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return (identidadDeGénero(s) == Declarado(valor <- GéneroHombre))
+}
+
+function tieneIdentidadDeGéneroMujer(s) {
+  /* PROPÓSITO: indicar si la sexualidad dada 
+                indica que la identidad de género es de Mujer
+     PRECONDICIONES: ninguna
+     PARÁMETRO: s, de tipo Sexualidad
+     RESULTADO: un valor de verdad
+  */
+  return (identidadDeGénero(s) == Declarado(valor <- GéneroMujer))
+}
+
+function totalmenteMasculino() {
+  /* PROPÓSITO: describir el valor del género totalmente masculino
+     PRECONDICIONES: ninguna
+     RESULTADO: un valor de tipo Género
+  */
+  return (Masculino(intensidad <- 100))   
+}
+
+function totalmenteFemenino() {
+  /* PROPÓSITO: describir el valor del género totalmente femenino
+     PRECONDICIONES: ninguna
+     RESULTADO: un valor de tipo Género
+  */
+  return (Femenino(intensidad <- 100))
+}
+
+function hombreSegúnLaLógicaPatriarcal() {
+  /* PROPÓSITO: describir el valor de la sexualidad que la lógica
+                patriarcal define como hombre
+     PRECONDICIONES: ninguna
+     RESULTADO: un valor de tipo Sexualidad
+  */
+  return (Sexualidad(
+            sexoBiológico     <- Declarado(valor <- Hombre)
+          , identidadDeGénero <- Declarado(valor <- GéneroHombre)
+          , orientación       <- Declarado(valor <- Heterosexual)
+          , expresiónDeGénero <- Declarado(valor <- totalmenteMasculino())
+          )
+  )
+}
+
+function mujerSegúnLaLógicaPatriarcal() {
+  /* PROPÓSITO: describir el valor de la sexualidad que la lógica
+                patriarcal define como mujer
+     PRECONDICIONES: ninguna
+     RESULTADO: un valor de tipo Sexualidad
+  */
+  return (Sexualidad(
+            sexoBiológico     <- Declarado(valor <- Mujer)
+          , identidadDeGénero <- Declarado(valor <- GéneroMujer)
+          , orientación       <- Declarado(valor <- Heterosexual)
+          , expresiónDeGénero <- Declarado(valor <- totalmenteFemenino())
+          )
+  )
+}

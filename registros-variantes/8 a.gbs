@@ -1,0 +1,106 @@
+program {
+    
+    return(empleado_ConSueldoActualizadoA_ (Empleado(identidad <- 12,
+                                                     puesto <- LíderDeProyecto,
+                                                     sueldo <- 45000),
+                                            65000) )
+    
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar la identidad de un alumno.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo Fecha.
+    field esDonante //bool.
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha con día, mes y año.
+      INV REP: -"día" es un número entre 1 y 31.
+                "año" es un número entre 0 y 9999.
+    */
+     field dia //Tipo número.
+     field mes //Tipo Mes.
+     field año //Tipo número.
+}
+
+type Mes is variant {
+     case Enero {}
+     case Febrero {}
+     case Marzo {}
+     case Abril {}
+     case Mayo {}
+     case Junio {}
+     case Julio {}
+     case Agosto {}
+     case Septiembre {}
+     case Octubre {}
+     case Noviembre {}
+     case Diciembre {}
+}
+
+type Empleado is record {
+    /*
+      PROPÓSITO: Modelar empleados de una empresa.
+      INV REP: El número de "sueldo" debe ser >= 0.
+    */
+     field identidad //tipo Persona.
+     field puesto //tipo Puesto.
+     field sueldo //un número.
+}
+
+type Puesto is variant {
+    /* 
+    PROPÓSITO: modelar los diferentes puestos que hay dentro de una empresa de software.
+    */
+     case GestorDeProyecto {}
+     case LíderDeProyecto {}
+     case Desarrollador {}
+     case Operador {}
+}
+
+function empleado_ConSueldoActualizadoA_ (empleado, nuevoSueldo) {
+    /*
+      PROPÓSITO: Retorna al dado "empleado" con el dado "nuevoSueldo".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *empleado= Valor de tipo "Empleado".
+                  *nuevoSueldo= Valor de tipo "Sueldo".
+      RESULTADO: Un Empleado.
+    */
+        return(Empleado(identidad <- identidad(empleado),
+                        puesto <- puesto(empleado),
+                        sueldo <- nuevoSueldo) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

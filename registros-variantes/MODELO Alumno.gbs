@@ -1,0 +1,70 @@
+program {
+    
+}
+
+type Alumno is record {
+    /*
+      PROPÓSITO: Modelar alumnos universitarios.
+      INV REP: *El "numeroDeLegajo" es un número de 4 dígitos.
+    */
+     field identidad //Tipo Persona.
+     field numeroDeLegajo //Tipo número.
+     field fechaDeIngreso //Tipo Fecha.
+     field materiasRendidas //Tipo número.
+     field materiasAprobadas //Tipo número.
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar la identidad de un alumno.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo Fecha.
+    field esDonante //bool.
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha con día, mes y año.
+      INV REP: -"día" es un número entre 1 y 31.
+                "año" es un número entre 0 y 9999.
+    */
+     field dia //Tipo número.
+     field mes //Tipo Mes.
+     field año //Tipo número.
+}
+
+type Mes is variant {
+     case Enero
+     case Febrero
+     case Marzo
+     case Abril
+     case Mayo
+     case Junio
+     case Julio
+     case Agosto
+     case Septiembre
+     case Octubre
+     case Noviembre
+     case Diciembre
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+program {
+    
+    return(edadDelAlumno_AlIngresar (Alumno(identidad <- Persona(dni <- 1234567,
+                                                                 domicilio <- 1234567,
+                                                                 fechaDeNacimiento <- Fecha(dia <- 8,
+                                                                                            mes <- Junio,
+                                                                                            año <- 2000),
+                                                                 esDonante <- True),
+                                            numeroDeLegajo <- 12345,
+                                            fechaDeIngreso <- Fecha(dia <- 1,
+                                                                    mes <- Enero,
+                                                                    año <- 2018),
+                                            materiasRendidas <- 800,
+                                            materiasAprobadas <- 0) ) )
+    
+}
+
+type Alumno is record {
+    /*
+      PROPÓSITO: Modelar alumnos universitarios.
+      INV REP: *El "numeroDeLegajo" es un número de 5 dígitos.
+    */
+     field identidad //Tipo Persona.
+     field numeroDeLegajo //Tipo número.
+     field fechaDeIngreso //Tipo Fecha.
+     field materiasRendidas //Tipo número.
+     field materiasAprobadas //Tipo número.
+}
+
+type Persona is record {
+    /*
+      PROPÓSITO: Modelar la identidad de un alumno.
+      INV REP: *dni= Es un número desde 1000000 al 9999999.
+               *domicilio= Es un número de calle, desde 1000000 al 9999999.
+    */
+    field dni //Un string.
+    field domicilio //Un string.
+    field fechaDeNacimiento //Tipo Fecha.
+    field esDonante //bool.
+}
+
+type Fecha is record {
+    /*
+      PROPÓSITO: Modelar una fecha con día, mes y año.
+      INV REP: -"día" es un número entre 1 y 31.
+                "año" es un número entre 0 y 9999.
+    */
+     field dia //Tipo número.
+     field mes //Tipo Mes.
+     field año //Tipo número.
+}
+
+type Mes is variant {
+     case Enero {}
+     case Febrero {}
+     case Marzo {}
+     case Abril {}
+     case Mayo {}
+     case Junio {}
+     case Julio {}
+     case Agosto {}
+     case Septiembre {}
+     case Octubre {}
+     case Noviembre {}
+     case Diciembre {}
+}
+
+function edadDelAlumno_AlIngresar (alumno) {
+    /*
+      PROPÓSITO: Describe la edad del dado "alumno" al ingresar en la universidad.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *alumno= Valor de tipo "Alumno".
+      RESULTADO: Un número.
+    */
+        return( año(fechaDeIngreso(alumno)) - año(fechaDeNacimiento(identidad(alumno))) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

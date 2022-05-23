@@ -1,0 +1,76 @@
+program {
+    
+    return(cuenta_ConTipoDeCuentaCambiadoA_(Cuenta( numeroDeCuenta <- 1234,
+                                                tipoDeCuenta <- CuentaCorriente,
+                                                nombreDeCliente <- "Felipe",
+                                                tipoDeMoneda <- Dólares,
+                                                saldo <- 100000 ),
+                                        CajaDeAhorro) )
+    
+}
+
+type Cuenta is record {
+    /*
+      PROPÓSITO: Modelar una cuenta bancaria.
+      INV REP: *El "saldo" se representa como centavos del "tipoDeMoneda".
+    */
+     field numeroDeCuenta //Un número.
+     field tipoDeCuenta //Un valor de tipo "TipoDeCuenta".
+     field nombreDeCliente //Un string.
+     field tipoDeMoneda //Un valor de tipo "Moneda".
+     field saldo //Un número.
+}
+
+type TipoDeCuenta is variant {
+    /* 
+      PROPÓSITO: modelar los diferentes tipos de cuenta que ofrece el banco.
+    */
+     case CuentaCorriente {}
+     case CajaDeAhorro {}
+     case CuentaSueldo {}
+}
+
+type Moneda is variant {
+    /* PROPÓSITO: modelar los diferentes tipos de moneda con los que trabaja el banco.
+    */
+     case Pesos {}
+     case Dólares {}
+     case Euros {}
+     case Reales {}
+}
+
+function cuenta_ConTipoDeCuentaCambiadoA_(cuenta, nuevoTipoDeCuenta) {
+    /*
+      PROPÓSITO: Describe a la dada "cuenta" con el tipoDeCuenta cambiado al dado "nuevoTipoDeCuenta".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS:*cuenta= Es un valor de tipo "Cuenta".
+                 *nuevoTipoDeCuenta= Es un valor de tipo "tipoDeCuenta".
+      RESULTADO: Una Cuenta.
+    */
+        return(Cuenta (cuenta | tipoDeCuenta <- nuevoTipoDeCuenta) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+program {
+   return( cantidadTotalDeBolitas_(celdaActual()) )
+}
+
+type Celda is record {
+    /*
+      PROPĆ“SITO: Modelar celdas del tablero.
+      INV REP: Los nĆŗmeros serĆ�n todos >= 0.
+    */
+     field cantidadDeAzules //NĆŗmeros.
+     field cantidadDeNegras
+     field cantidadDeRojas
+     field cantidadDeVerdes
+}
+
+function celdaActual() {
+    /*
+      PROPĆ“SITO: Indica el estado de la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una celda.
+    */
+        return(Celda(cantidadDeAzules <- nroBolitas(Azul),
+                     cantidadDeNegras <- nroBolitas(Negro),
+                     cantidadDeRojas <- nroBolitas(Rojo),
+                     cantidadDeVerdes <- nroBolitas(Verde)))
+}
+
+
+function cantidadTotalDeBolitas_(celda) {
+    /*
+    */
+        return( cantidadDeAzules(celda) +
+                cantidadDeNegras(celda) +
+                cantidadDeRojas(celda) +
+                cantidadDeVerdes(celda) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+program {
+    
+}
+
+type Cuenta is record {
+    /*
+      PROPÓSITO: Modelar una cuenta bancaria.
+      INV REP: *El "saldo" se representa como centavos del "tipoDeMoneda".
+    */
+     field numeroDeCuenta //Un número.
+     field tipoDeCuenta //Un valor de tipo "TipoDeCuenta".
+     field nombreDelCliente //Un string.
+     field tipoDeMoneda //Un valor de tipo "Moneda".
+     field saldo //Un número.
+}
+
+type TipoDeCuenta is variant {
+    /* 
+      PROPÓSITO: modelar los diferentes tipos de cuenta que ofrece el banco.
+    */
+     case CuentaCorriente {}
+     case CajaDeAhorro {}
+     case CuentaSueldo {}
+}
+
+type Moneda is variant {
+    /* PROPÓSITO: modelar los diferentes tipos de moneda con los que trabaja el banco.
+    */
+     case Pesos {}
+     case Dólares {}
+     case Euros {}
+     case Reales {}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

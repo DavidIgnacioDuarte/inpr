@@ -1,0 +1,74 @@
+program {
+    
+   return( cantidadTotalDeBolitas_(celdaActual()) > cantidadTotalDeBolitas_(celdaAlEste()) )
+   
+}
+
+type Celda is record {
+    /*
+      PROPĆ“SITO: Modelar celdas del tablero.
+      INV REP: Los nĆŗmeros serĆ�n todos >= 0.
+    */
+     field cantidadDeAzules //NĆŗmeros.
+     field cantidadDeNegras
+     field cantidadDeRojas
+     field cantidadDeVerdes
+}
+
+function celdaActual() {
+    /*
+      PROPĆ“SITO: Indica el estado de la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una celda.
+    */
+        return(Celda(cantidadDeAzules <- nroBolitas(Azul),
+                     cantidadDeNegras <- nroBolitas(Negro),
+                     cantidadDeRojas <- nroBolitas(Rojo),
+                     cantidadDeVerdes <- nroBolitas(Verde)))
+}
+
+function celdaAlEste() {
+    /*
+      PROPĆ“SITO: Indica el estado de la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una celda.
+    */
+        Mover(Este)
+        return(Celda(cantidadDeAzules <- nroBolitas(Azul),
+                     cantidadDeNegras <- nroBolitas(Negro),
+                     cantidadDeRojas <- nroBolitas(Rojo),
+                     cantidadDeVerdes <- nroBolitas(Verde)))
+}
+
+function cantidadTotalDeBolitas_(celda) {
+    /*
+    */
+        return( cantidadDeAzules(celda) +
+                cantidadDeNegras(celda) +
+                cantidadDeRojas(celda) +
+                cantidadDeVerdes(celda) )
+}
+
+function la_tieneMasBolitasQue_(celda1, celda2) {
+    /*
+      PROPÓSITO: Indica si la dada "celda1" tiene mas bolitas que la dada "celda2".
+      PRECONDICIONES: Las cantidades de bolitas de cada "celda" debe ser diferente.
+      PARÁMETROS: *celda1= Tipo celda.
+                  *celda2= Tipo celda.
+      RESULTADO: Un booleano
+    */
+        return( cantidadTotalDeBolitas_(celda1) > cantidadTotalDeBolitas_(celda2) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

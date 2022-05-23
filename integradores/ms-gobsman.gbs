@@ -1,0 +1,46 @@
+program {
+    
+    
+    
+}
+
+// 16 // -------------------------------------------------------------------------------------------------------
+
+function esMejorRecorridoHacia_Y_QueHacia_Y_(dirPpal1, dirSec1, dirPpal2, dirSec2) {
+    /*
+      PROPÓSITO: Determina si el recorrido hacia las direcciones "dirPpal1" y "dirSec1" es mejor que el recorrido
+      hacia las dadas "dirPpal2" y "dirSec2", es decir, el primer recorrido obtiene un mayor puntaje hasta 
+      toparse con un fantasma en el caso de que haya.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *todas direcciones 
+      RESULTADO: Bool.
+    */
+        return ( cantidadDePuntosEnNivelHacia_Y_(dirPpal1, dirSec1) 
+                 >
+                 cantidadDePuntosEnNivelHacia_Y_(dirPpal2, dirSec2) )
+}
+
+
+// 17 // -------------------------------------------------------------------------------------------------------
+
+function masDeLaMitadDelNivelSiVaHacia_Y_(dirPpal, dirSec) {
+    /*
+      PROPÓSITO: Determina si el recorrido a lo largo del nivel de MsGobsman hacia las dadas "dirPpal" y 
+      "dirSec" es mayor a la mitad del nivel.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *direcciones.
+      RESULTADO: Bool.
+    */
+        return( celdasRecorridasHacia_(dirPpal, dirSec) >
+                ( tamañoDelTablero() div 2 ) )
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,180 @@
+program {
+    
+        JugarNivel()
+
+}
+
+procedure JugarNivel() {
+    /*
+    */
+        while(  not estoyEnElFinal() &&
+                not hayFantasma() ) {
+                    ComerObjetos()
+                    PasarASigCelda()
+                }
+                ComerYMorirSiHayFantasma()
+}
+
+-----------------------------------------------------------------------------------
+
+function estoyEnElFinal() {
+    /*
+    */
+        return( not puedeMover(Este) &&
+                not puedeMover(Norte) )
+}
+
+procedure ComerObjetos() {
+    /*
+    */
+        ComerFrutillaSiHay()
+        ComerCocoSiHay()
+        ComerCerezaSiHay()
+}
+
+procedure ComerFrutillaSiHay() {
+    /*
+    */
+        if ( hayFrutilla() ) {
+                Sacar(Rojo)
+        }
+}
+
+procedure ComerCocoSiHay() {
+    /*
+    */
+        if ( hayCoco() || hayCocoYCereza() ) {
+                Sacar(Negro)
+        }
+}
+procedure ComerCerezaSiHay() {
+    /*
+    */
+        if ( hayCereza() || hayCocoYCereza() ) {
+                Sacar(Negro)
+                Sacar(Negro)
+        }
+}
+
+function hayCoco() {
+    /*
+    */
+        return( nroBolitas(Negro) == 1 )
+}
+
+function hayCereza() {
+    /*
+    */
+        return( nroBolitas(Negro) == 2 )
+}
+
+function hayCocoYCereza() {
+    /*
+    */
+        return( nroBolitas(Negro) == 3 )
+}
+
+function hayFrutilla() {
+    /*
+    */
+        return( nroBolitas(Rojo) == 1 )
+}
+
+function estaMsGMViva() {
+    /*
+    */
+        return (nroBolitas(Azul) == 1 )
+}
+
+function estaMsGMMuerta() {
+    /*
+    */
+        return( nroBolitas(Azul) == 2 )
+}
+
+function hayFantasma() {
+    /*
+    */
+        return( nroBolitas(Azul) > 5 )
+}
+
+procedure MoverMsGobsManAl_(dir) {
+    /*
+    */
+            Sacar(Azul)
+            Mover(dir)
+            Poner(Azul)
+}
+
+procedure LlevarMsGobsManAlBorde_(dir) {
+    /*
+    */
+            Sacar(Azul)
+            IrAlBorde(dir)
+            Poner(Azul)
+}
+
+procedure MorirMsGobsMan() {
+    /*
+    */
+          Poner(Azul)
+}
+
+procedure PasarASigCelda() {
+    /*
+    */
+        if(puedeMover(Este)) {
+            MoverMsGobsManAl_(Este)
+        }
+        else {
+            LlevarMsGobsManAlBorde_(Oeste)
+            MoverMsGobsManAl_(Norte)
+        }
+}
+
+procedure ComerYMorirSiHayFantasma() {
+    /*
+    */
+        ComerObjetos()
+        if(hayFantasma()) {
+            MorirMsGobsMan()
+        }
+}
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

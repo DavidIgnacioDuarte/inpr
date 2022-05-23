@@ -1,0 +1,140 @@
+program {
+    
+        JugarNivel()
+    
+}
+---------------------------------------------------------------------------------------
+
+procedure JugarNivel() {
+    /*
+    */
+        while( (puedeMover(Norte) || puedeMover(Este))
+               &&
+               not hayFantasma()) {
+            ComerObjetoActual()
+            PasarASigCelda()
+        }
+        ComerYMorirSiHayFantasma()
+}
+
+procedure ComerObjetoActual() {
+    /*
+    */
+        ComerCocoSiHay()
+        ComerCerezaSiHay()
+}
+
+procedure PasarASigCelda() {
+    /*
+    */
+        if(puedeMover(Este)) {
+            MoverGobsManAl_(Este)
+        }
+        else {
+            LlevarGobsManAlBorde_(Oeste)
+            MoverGobsManAl_(Norte)
+        }
+}
+
+procedure ComerYMorirSiHayFantasma() {
+    /*
+    */
+        ComerObjetoActual()
+        if(hayFantasma()) {
+            MorirGobsMan()
+        }
+}
+--------------------------------------------------------------------------------------
+function esGobsManVivo() {
+    /*
+    */
+        return(nroBolitas(Azul) == 1)
+}
+
+function esGobsManMuerto() {
+    /*
+    */
+        return(nroBolitas(Azul) == 2)
+}
+
+function hayCoco() {
+    /*
+    */
+        return(nroBolitas(Negro) == 1)
+}
+
+function hayCereza() {
+    /*
+    */
+        return(nroBolitas(Rojo) == 2)
+}
+
+function hayFantasma() {
+    /*
+    */
+        return(nroBolitas(Verde) == 5)
+}
+
+procedure ComerCerezaSiHay() {
+    /*
+    */
+        if ( hayCereza() ) {
+            Sacar(Rojo)
+            Sacar(Rojo)
+        }
+}
+
+procedure ComerCocoSiHay() {
+    /*
+    */
+        if ( hayCoco() ) {
+            Sacar(Negro)
+        }
+}
+
+procedure MoverGobsManAl_(dir) {
+    /*
+    */
+        if (esGobsManVivo() && puedeMover(dir)) {
+            Sacar(Azul)
+            Mover(dir)
+            Poner(Azul)
+        }
+}
+
+procedure LlevarGobsManAlBorde_(dir) {
+    /*
+    */
+        if (esGobsManVivo()) {
+            Sacar(Azul)
+            IrAlBorde(dir)
+            Poner(Azul)
+        }
+}
+
+procedure MorirGobsMan() {
+    /*
+    */
+        if(esGobsManVivo() && hayFantasma()) {
+          Poner(Azul)
+        }
+}
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

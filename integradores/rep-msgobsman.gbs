@@ -1,0 +1,172 @@
+program {
+    
+        ComerYMostrarPuntos()
+
+}
+
+procedure ComerYMostrarPuntos() {
+    /*
+    */
+        Mostrar_PuntosEnPantalla(puntajeAObtener())
+        ComerObjetos()
+}
+
+procedure Mostrar_PuntosEnPantalla(puntaje) {
+    /*
+    */
+        repeat(puntaje) {
+            Poner(puntos())
+        }
+}
+
+procedure ComerObjetos() {
+    /*
+    */
+        ComerFrutillaSiHay()
+        ComerCerezaSiHay()
+        ComerCocoSiHay()
+}
+
+procedure ComerFrutillaSiHay() {
+    /*
+    */
+        if ( hayFrutilla() ) {
+            /*
+            */
+                Sacar(Rojo)
+        }
+}
+
+procedure ComerCocoSiHay() {
+    /*
+    */
+        if ( hayCoco() || hayCocoYCereza() ) {
+            /*
+            */
+                Sacar(Negro)
+        }
+}
+procedure ComerCerezaSiHay() {
+    /*
+    */
+        if ( hayCereza() || hayCocoYCereza() ) {
+            /*
+            */
+                Sacar(Negro)
+                Sacar(Negro)
+        }
+}
+
+--------------------------------------------------------------------------------------
+
+function puntajeAObtener() {
+    /*
+    */
+        return( puntajeDeCerezaSiHay() + puntajeDeCocoSiHay() + puntajeDeFrutillaSiHay() )
+}
+
+function puntajeDeCerezaSiHay() {
+    /*
+    */
+        puntaje := 0
+        if ( hayCereza() || hayCocoYCereza() ) {
+            puntaje := 20
+        }
+        return ( puntaje )
+}
+
+function puntajeDeCocoSiHay() {
+    /*
+    */
+        puntaje := 0
+        if ( hayCoco() || hayCocoYCereza() ) {
+            puntaje := 10
+        }
+        return ( puntaje )
+}
+
+function puntajeDeFrutillaSiHay() {
+    /*
+    */
+        puntaje := 0
+        if ( hayFrutilla() ) {
+            puntaje := 15
+        }
+        return ( puntaje )
+}
+
+--------------------------------------------------------------------------------------
+
+function hayCoco() {
+    /*
+    */
+        return(nroBolitas(Negro) == 1)
+}
+
+function hayCereza() {
+    /*
+    */
+        return(nroBolitas(Negro) == 2)
+}
+
+function hayCocoYCereza() {
+    /*
+    */
+        return(nroBolitas(Negro) == 3)
+}
+
+function hayFrutilla() {
+    /*
+    */
+        return(nroBolitas(Rojo) == 1)
+}
+
+function estaMsGMViva() {
+    /*
+    */
+        return(nroBolitas(Azul) == 1)
+}
+
+function estaMsGMMuerta() {
+    /*
+    */
+        return(nroBolitas(Azul) == 2)
+}
+
+function hayFantasma() {
+    /*
+    */
+        return(nroBolitas(Azul) == 5)
+}
+
+function puntos() {
+    /*
+    */
+        return(Verde)
+}
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

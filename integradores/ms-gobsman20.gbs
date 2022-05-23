@@ -1,0 +1,208 @@
+program {
+    
+        return ( elFantasmaSeComeraAMsGobsManAContinuacion() )
+    
+}
+
+function elFantasmaSeComeraAMsGobsManAContinuacion() {
+    /*
+    */
+        esMsGobsMan := False
+        MoverFantasmaHaciaMsGobsMan()
+        if( nroBolitas(Azul) == 6 ) {
+            esMsGobsMan := True
+        }
+        return(esMsGobsMan)
+}
+
+procedure MoverFantasmaHaciaMsGobsMan() {
+    /*
+    */
+        if( (filaDondeEstaElFantasma() /= filaDondeEstaMsGobsMan()) &&
+            (columnaDondeEstaElFantasma() /= columnaDondeEstaMsGobsMan()) ) {
+                MoverFantasmaAl_( direccionDeFila() )
+                MoverFantasmaAl_( direccionDeColumna() )
+            }
+        elseif( filaDondeEstaElFantasma() /= filaDondeEstaMsGobsMan() ) {
+            MoverFantasmaAl_( direccionDeFila() )
+        }
+        elseif( columnaDondeEstaElFantasma() /= columnaDondeEstaMsGobsMan() ) {
+            MoverFantasmaAl_( direccionDeColumna() )
+        }
+}
+
+function filaDondeEstaMsGobsMan() {
+    /*
+    */
+        IrAlBorde(Oeste)
+        IrAlBorde(Sur)
+        filaActual := 1
+        while( not msGobsManEstaEnEstaFila() ) {
+            Mover(Norte)
+            filaActual := filaActual + 1
+        }
+        return( filaActual )
+}
+
+function columnaDondeEstaMsGobsMan() {
+    /*
+    */
+        IrAlBorde(Oeste)
+        IrAlBorde(Sur)
+        columnaActual := 1
+        while ( not msGobsManEstaEnEstaColumna() ) {
+            Mover(Este)
+            columnaActual := columnaActual + 1
+        }
+        return( columnaActual )
+}
+
+function msGobsManEstaEnEstaFila() {
+    /*
+    */
+        while( puedeMover(Este) && not estaMsGMViva() ) {
+            Mover(Este)
+        }
+        return( estaMsGMViva() )
+}
+
+function msGobsManEstaEnEstaColumna() {
+    /*
+    */
+        while( puedeMover(Norte) && not estaMsGMViva() ) {
+            Mover(Norte)
+        }
+        return( estaMsGMViva() )
+}
+
+function filaDondeEstaElFantasma() {
+    /*
+    */
+        IrAlBorde(Oeste)
+        IrAlBorde(Sur)
+        filaActual := 1
+        while( not elFantasmaEstaEnEstaFila() ) {
+            Mover(Norte)
+            filaActual := filaActual + 1
+        }
+        return( filaActual )
+}
+
+function columnaDondeEstaElFantasma() {
+    /*
+    */
+        IrAlBorde(Oeste)
+        IrAlBorde(Sur)
+        columnaActual := 1
+        while ( not elFantasmaEstaEnEstaColumna() ) {
+            Mover(Este)
+            columnaActual := columnaActual + 1
+        }
+        return( columnaActual )
+}
+
+function elFantasmaEstaEnEstaFila() {
+    /*
+    */
+        while( puedeMover(Este) && not hayFantasma() ) {
+            Mover(Este)
+        }
+        return( hayFantasma() )
+}
+
+function elFantasmaEstaEnEstaColumna() {
+    /*
+    */
+        while( puedeMover(Norte) && not hayFantasma() ) {
+            Mover(Norte)
+        }
+        return( hayFantasma() )
+}
+
+function direccionDeFila() {
+    /*
+    */
+        direccionActual := Norte
+        if( filaDondeEstaElFantasma() > filaDondeEstaMsGobsMan()  ) {
+            direccionActual := Sur
+        }
+        return( direccionActual )
+}
+
+
+function direccionDeColumna() {
+    /*
+    */
+        direccionActual := Este
+        if( columnaDondeEstaElFantasma() >
+            columnaDondeEstaMsGobsMan() ) {
+                direccionActual := Oeste
+            } 
+        return( direccionActual )
+}
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+function estaMsGMViva() {
+    /*
+    */
+        return(nroBolitas(Azul) == 1)
+}
+
+function hayFantasma() {
+    /*
+    */
+        return(nroBolitas(Azul) == 5)
+}
+
+procedure MoverFantasmaAl_(dir) {
+    /*
+    */
+        repeat(5) {
+            Sacar(Azul)
+        }
+        Mover(dir)
+        repeat(5) {
+            Poner(Azul)
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

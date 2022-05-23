@@ -1,0 +1,60 @@
+program {
+        return (esDíaDeFinDeSemana_(Viernes))
+}
+
+type DíaDeLaSemana is variant {
+     case Domingo {}
+     case Lunes {}
+     case Martes {}
+     case Miercoles {}
+     case Jueves {}
+     case Viernes {}
+     case Sabado {}
+}
+
+function diaSiguiente_(día) {
+    /*
+      PROPÓSITO: Indica el día siguiente al dado 'día' de la semana.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: día - Es de tipo DíaDeLaSemana.
+      RESULTADO: Es un DíaDeLaSemana.
+    */
+        return(matching(día)select
+                            Lunes on Domingo
+                            Martes on Lunes
+                            Miercoles on Martes
+                            Jueves on Miercoles
+                            Viernes on Jueves
+                            Sabado on Viernes
+                            Domingo on Sabado
+                            boom ("No es día valido") otherwise)
+}
+
+function díaPrevio_(día) {
+    /*
+      PROPÓSITO: Indica el día previo al dado 'día' de la semana.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: día - Es de tipo DíaDeLaSemana.
+      RESULTADO: Es un DíaDeLaSemana.
+    */
+        return(matching(día)select
+                            Sabado on Domingo
+                            Viernes on Sabado
+                            Jueves on Viernes
+                            Miercoles on Jueves
+                            Martes on Miercoles
+                            Lunes on Martes
+                            Domingo on Lunes
+                            boom ("No es día valido") otherwise)
+}
+
+function esDíaDeFinDeSemana_(día) {
+    /*
+      PROPÓSITO: Indica si el 'día' dado es un día del fin de semana.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: día - Es de tipo DíaDeLaSemana.
+      RESULTADO: Es un booleano.
+      OBSERVACIONES: Los días que pertenecen al fin de semana son Viernes, Sábado y Domingo.
+    */
+        return((día) == Sabado || (día) == Domingo)
+}

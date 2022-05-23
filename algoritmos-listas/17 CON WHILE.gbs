@@ -1,0 +1,60 @@
+program {
+    
+        return(algunoDe_Entre_Y_([1,3,5,7,9,2,4], 10, 13))
+    
+}
+
+function algunoDe_Entre_Y_(listaDeNumeros, desde, hasta) {
+    /*
+      PROPÓSITO: Indica si la dada "listaDeNumeros" contiene algún elemento que se encuentre 
+      entre los dados números "desde" y "hasta", sin ser incluidos.
+      PRECONDICIONES: El valor "desde" debe ser menor al valor "hasta".
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Números.
+                  *desde= Es un número.
+                  *hasta= Es un número.
+      RESULTADO: Un booleano.
+    */
+        listaDada := listaDeNumeros
+        while( not esVacía(listaDada) && noContiene_A_(listaDeElementosEntre_Y_(desde, hasta),
+                                                       primero(listaDada)) ) {
+                listaDada := resto(listaDada)
+        }
+        return(not esVacía(listaDada))
+}
+
+function listaDeElementosEntre_Y_(desde, hasta) {
+    /*
+    */ 
+        listaActual := []
+        valorAAgregar := desde + 1
+        while(valorAAgregar < hasta) {
+            listaActual := listaActual ++ [valorAAgregar]
+            valorAAgregar := valorAAgregar + 1
+        }
+        return(listaActual)
+}
+
+function noContiene_A_(lista, elemento) {
+    /*
+      PROPÓSITO: Indica si el dado "elemento" se encuentra en la dada "lista".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+                  *elemento= Es un Elemento que puede estar en la Lista.
+      RESULTADO: Booleano.
+      OBSERVACIONES: Recorrido de búsqueda.
+    */
+        listaDada := lista
+        while( not esVacía(listaDada) && primero(listaDada) /= elemento ) {
+            listaDada := resto(listaDada)
+        }
+        return(esVacía(listaDada)) //Si queda vacía, no encontré el elemento.
+        //Si no es vacía, entonces me detuve cuando encontré al elemento.
+}
+
+
+
+
+
+
+
+

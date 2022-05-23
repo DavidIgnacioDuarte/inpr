@@ -1,0 +1,32 @@
+program {
+        return( estaOrdenada_([3,1]) )
+}
+
+function estaOrdenada_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Determina si la dada "listaDeNumeros" se encuentra ordenada de menor a mayor entre
+      sus elementos.
+      PRECONDICIONES: La dada "listaDeNumeros" no debe estar vacía.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Numeros.
+      RESULTADO: Un booleano.
+      OBSERVACIONES: Es un recorrido por la Lista.
+    */
+        listaDada := listaDeNumeros
+        elementoMayorEnOrden := primero(listaDada)
+        while( not esVacía(resto(listaDada)) 
+             && 
+             ( primero(listaDada) <= primero(resto(listaDada)) ) ) {
+            listaDada := resto(listaDada)
+        }
+        return( esVacía(resto(listaDada)) )
+}
+
+
+
+
+
+
+
+
+
+

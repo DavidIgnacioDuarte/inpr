@@ -1,0 +1,40 @@
+program {
+    
+        return(algunoDe_Entre_Y_([1,2,5,9,10,11,12], 5, 9))
+    
+}
+
+function algunoDe_Entre_Y_(listaDeNumeros, desde, hasta) {
+    /*
+      PROPÓSITO: Indica si la dada "listaDeNumeros" contiene algún elemento que se encuentre 
+      entre los dados números "desde" y "hasta", sin ser incluidos.
+      PRECONDICIONES: El valor "desde" debe ser menor al valor "hasta".
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Números.
+                  *desde= Es un número.
+                  *hasta= Es un número.
+      RESULTADO: Un booleano.
+    */
+        listaDada := listaDeNumeros
+        listaDeElementosEntreValores := []
+        foreach numero in listaDada {
+                listaDeElementosEntreValores := listaDeElementosEntreValores ++
+                                                singular_SiEstaEntre_Y_(primero(listaDada),
+                                                                        desde, hasta)
+                listaDada := resto(listaDada)
+        }
+        return(not esVacía(listaDeElementosEntreValores))
+}
+
+function singular_SiEstaEntre_Y_(elemento, primerValor, segundoValor) {
+    /*
+    */
+        return( choose [elemento] when( (elemento > primerValor) &&
+                                        (elemento < segundoValor) )
+                       [] otherwise )
+}
+
+
+
+
+
+

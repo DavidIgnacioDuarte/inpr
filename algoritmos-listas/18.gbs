@@ -1,0 +1,45 @@
+program {
+        return( lista_estáIncluidaEn_ ([1], []) )
+}
+
+function lista_estáIncluidaEn_ (lista1, lista2) {
+    /*
+      PROPÓSITO: Indica si la dada "lista1" está incluida en la dada "lista2", es decir, todos sus
+      elementos se encuentran en la segunda lista.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista1= Es un valor de tipo Lista de Elementos.
+                  *lista2= Es un valor de tipo Lista de Elementos.
+      RESULTADO: Un booleano.
+    */
+        primeraLista := lista1
+        segundaLista := lista2
+        while( not esVacía(segundaLista) && not esVacía(primeraLista) ) {
+            primeraLista := restoDe_SiElementoActualEstaEn_(primeraLista, lista2)
+            segundaLista := resto(segundaLista)
+        }
+        return( esVacía(primeraLista) )
+}
+
+function restoDe_SiElementoActualEstaEn_(listaASacarPrimero, segundaLista) {
+    /*
+    */
+        return(choose resto(listaASacarPrimero) when(la_ContieneA_(segundaLista,
+                                                     primero(listaASacarPrimero)))
+                      listaASacarPrimero otherwise )
+}
+
+function la_ContieneA_(lista2, elemento) {
+    /*
+    */
+        listaActual := lista2
+        while(not esVacía(listaActual) && primero(listaActual) /= elemento) {
+            listaActual := resto(listaActual)
+        }
+        return(not esVacía(listaActual))
+}
+
+
+
+
+
+

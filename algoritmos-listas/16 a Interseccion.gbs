@@ -1,0 +1,57 @@
+program {
+        return( interseccionDe_Con_([], []) )
+}
+
+function interseccionDe_Con_(lista1, lista2) {
+    /*
+      PROPÓSITO: Describe una lista sin repetidos que contenga todos los elementos que aparezcan
+      simultáneamente en las dadas "lista1" y "lista2".
+      PRECONDICIONES: Las dadas "lista1" y "lista2" no contienen elementos repetidos individualmente.
+      PARÁMETROS: *lista1= Es un valor de tipo Lista de Elementos.
+                  *lista2= Es un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista de Elementos.
+    */
+        listaDeInterseccion := []
+        listaAComparar := lista1 ++ lista2
+        foreach elemento in listaAComparar {
+                listaDeInterseccion := listaDeInterseccion ++ singular_RepetidoEn_(
+                                       primero(listaAComparar),
+                                       resto(listaAComparar))
+                listaAComparar := resto(listaAComparar)
+        }
+        return(listaDeInterseccion)
+}
+
+function singular_RepetidoEn_(elemento, lista) {
+    /*
+      PROPÓSITO: Devuelve la lista singular del primer elemento de la dada "lista" si éste se
+      repite en algún momento en la misma, caso contrario devuelve una lista vacía.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista.
+    */
+        return( choose [elemento] when (esta_En_(elemento, lista))
+                       [] otherwise )
+}
+
+function esta_En_(elementoDado, lista1) {
+    /*
+    */
+        listaDada := lista1
+        while(not esVacía(listaDada) && primero(listaDada) /= elementoDado) {
+            listaDada := resto(listaDada)
+        }
+        return(not esVacía(listaDada))
+}
+
+
+
+
+
+
+
+
+
+
+
+

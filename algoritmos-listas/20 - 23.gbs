@@ -1,0 +1,205 @@
+program {
+    
+        return( lista_ordenada([3,17,19,15,5,9,7,1]) )
+        
+}
+
+
+function estaOrdenada_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Determina si la dada "listaDeNumeros" se encuentra ordenada de menor a mayor entre
+      sus elementos.
+      PRECONDICIONES: La dada "listaDeNumeros" no debe estar vacía.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Numeros.
+      RESULTADO: Un booleano.
+      OBSERVACIONES: Es un recorrido por la Lista.
+    */
+        listaDada := listaDeNumeros
+        elementoMayorEnOrden := primero(listaDada)
+        while( not esVacía(resto(listaDada)) 
+             && 
+             ( primero(listaDada) <= primero(resto(listaDada)) ) ) {
+            listaDada := resto(listaDada)
+        }
+        return( esVacía(resto(listaDada)) )
+}
+
+
+// Ejercicio 20 // -------------------------------------------------------------------------------
+
+function posiciónDe_enLaQueAparece_(lista, elemento) {
+    /*
+      PROPÓSITO: Describe una posición en la dada "lista" en la que el dado "elemento" aparece
+      por primera vez.
+      PRECONDICIONES: El dado "elemento" debe estar al menos una vez en la dada "lista".
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+                  *elemento= Es un valor del mismo tipo que los elementos de la dada "lista".
+      RESULTADO: Un número.
+      OBSERVACIONES: Es un recorrido por los elementos de la dada lista. 
+                     Se define a la posición a devolver, como al número que representa la cant
+                     de veces que debe usarse la función primitiva "resto" para acceder a este
+                     elemento.
+    */
+        listaDada := lista
+        posicionActual := 0
+        while( (not esVacía(listaDada)) && (primero(listaDada) /= elemento) ) {
+            posicionActual := posicionActual + 1
+            listaDada := resto(listaDada)
+        }
+        return(posicionActual)
+}
+
+
+// Ejercicio 21 // ------------------------------------------------------------------------------
+
+function sinLaPrimeraApariciónDe_en_(elemento, lista) {
+    /*
+      PROPÓSITO: Describe a lista obtenida de eliminar una única vez el dado "elemento" de la 
+      dada "lista", si éste aparece.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *elemento= Es un valor del mismo tipo que los elementos de la dada "lista".
+                  *lista= Es un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista de Elementos.
+      OBSERVACIONES: Es un recorrido de búsqueda por la Lista, usando la idea de separar
+      la lista en 2.
+    */
+        return(choose lista_AntesDel_(lista, elemento) ++ resto(lista_DesdeEl_(lista, elemento))
+               when(estaElDado_En_(elemento, lista))
+               lista otherwise)
+}
+        
+
+function estaElDado_En_(elemento, lista) {
+    /*
+    */
+        listaActual := lista
+        while(not esVacía(listaActual) && primero(listaActual) /= elemento) {
+            listaActual := resto(listaActual)
+        }
+        return( not esVacía(listaActual) )
+}
+    
+
+function lista_AntesDel_(lista, elemento) {
+    /*
+      PROPÓSITO: Describe a la lista con los elementos que están antes del dado "elemento".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+                  *elemento= Es un valor del mismo tipo que los elementos de la dada "lista".
+      RESULTADO: Una Lista de Elementos.
+      OBSERVACIONES: Es un recorrido de búsqueda con acumulación.
+    */
+        listaDeLosQueFaltan := lista
+        listaDeVistas := []
+        while (not esVacía(listaDeLosQueFaltan) && primero(listaDeLosQueFaltan) /= elemento) {
+            listaDeVistas := listaDeVistas ++ [primero(listaDeLosQueFaltan)]
+            listaDeLosQueFaltan := resto(listaDeLosQueFaltan)
+        }
+        return(listaDeVistas)
+}
+
+function lista_DesdeEl_(lista, elemento) {
+    /*
+      PROPÓSITO: Describe a la lista con los elementos que están desde el dado "elemento".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+                  *elemento= Es un valor del mismo tipo que los elementos de la dada "lista".
+      RESULTADO: Una Lista de Elementos.
+      OBSERVACIONES: Es un recorrido de búsqueda.
+    */
+        listaDeLosQueFaltan := lista
+        while (not esVacía(listaDeLosQueFaltan) && primero(listaDeLosQueFaltan) /= elemento) {
+            listaDeLosQueFaltan := resto(listaDeLosQueFaltan)
+        }
+        return(listaDeLosQueFaltan)
+}
+
+
+// Ejercicio 22 // ----------------------------------------------------------------------------
+// a // ---------------------------------------------------------------------------------------
+
+function minimoElementoDe_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Describe al mínimo elemento de la dada "listaDeNúmeros", es decir, el número
+      más chico.
+      PRECONDICIONES: La "listaDeNumeros" no debe ser vacía.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Numeros.
+      RESULTADO: Un número.
+    */
+        listaActual := listaDeNumeros
+        menorElemento := primero(listaActual)
+        while( not esVacía(resto(listaActual)) ) {
+            menorElemento := minimoEntre_Y_( menorElemento, primero(resto(listaActual)) )
+            listaActual := resto(listaActual)
+        }
+        return(menorElemento)
+}
+
+
+function minimoEntre_Y_(valor1, valor2) {
+    /*
+    */
+        return( choose valor1 when(valor1 < valor2)
+                       valor2 otherwise )
+}
+
+
+// b // ---------------------------------------------------------------------------------------
+
+function sinElMinimoElemento_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Describe una lista obtenida de eliminar una vez el mínimo elemento de la dada
+      "listaDeNumeros" si lo hay.
+      PRECONDICIONES: La dada "listaDeNumeros" no debe ser vacía.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Numeros.
+      RESULTADO: Una Lista de Numeros.
+      OBSERVACIONES: Es un recorrido de búsqueda.
+    */
+      return( lista_AntesDel_(listaDeNumeros, minimoElementoDe_(listaDeNumeros))
+            ++ resto(lista_DesdeEl_(listaDeNumeros, minimoElementoDe_(listaDeNumeros))) )
+}
+
+
+// c // ---------------------------------------------------------------------------------------
+
+function lista_ordenada(listaDeNumeros) {
+    /*
+      PROPÓSITO: Retorna una lista con los mismos elementos que la dada "listaDeNumeros" pero
+      ordenada, con sus elementos de menor a mayor.
+      PRECONDICIONES: 
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Numeros.
+      RESULTADO: Una Lista de Numeros.
+    */
+        listaDada := listaDeNumeros
+        listaOrdenada := []
+        foreach numero in listaDada {
+                listaOrdenada := listaOrdenada ++ [minimoElementoDe_(listaDada)]
+                listaDada := sinElMinimoElemento_(listaDada)
+        }
+        return(listaOrdenada)
+}
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

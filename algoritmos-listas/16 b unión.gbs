@@ -1,0 +1,66 @@
+program {
+        return( uniónDe_Con_([1,2,3,4,5,6,7,8,9], [7,8,9,10,11,12]) )
+}
+
+function uniónDe_Con_(lista1, lista2) {
+    /*
+      PROPÓSITO: Describe una lista sin repetidos que contenga todos los elementos que aparecen 
+      en alguna de las dadas "lista1" y "lista2".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista1= Es un valor de tipo Lista de Elementos.
+                  *lista2= Es un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista de Elementos.
+    */
+        listaUnidaConRepetidos := lista1 ++ lista2
+        listaUnidaSinRepetidos := sinDuplicados_(listaUnidaConRepetidos)
+        return(listaUnidaSinRepetidos)
+}
+        
+        
+function sinDuplicados_(lista) {
+    /*
+      PROPÓSITO: Describe una lista que contenga los elementos de la dada "lista" 
+      pero sin repetidos si los hay.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista.
+    */
+        listaDada := lista
+        listaSinDuplicados := []
+        foreach elemento in listaDada {
+            listaSinDuplicados := listaSinDuplicados ++
+                                  elemento_SingularSinRepetirEn_(primero(listaDada),
+                                                                 listaSinDuplicados)
+            listaDada := resto(listaDada)
+        }
+        return(listaSinDuplicados)
+}
+
+
+function elemento_SingularSinRepetirEn_(elemento, lista) {
+    /*
+    */
+        return( choose [elemento] when(noEsta_En_(elemento, lista))
+                       [] otherwise)
+}
+
+
+function noEsta_En_(elementoDado, lista1) {
+    /*
+    */
+        listaDada := lista1
+        while(not esVacía(listaDada) && primero(listaDada) /= elementoDado) {
+            listaDada := resto(listaDada)
+        }
+        return(esVacía(listaDada))
+}
+
+
+
+
+
+
+
+
+
+

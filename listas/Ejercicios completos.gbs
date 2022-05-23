@@ -1,0 +1,156 @@
+program {
+    
+        return(esSingular_([Verde]))
+    
+}
+
+// Ejercicio 1 // -------------------------------------------------------------------------------------
+
+function cantidadesDeRojasEnFilaActual() {
+    /*
+      PROPÓSITO: Describe una Lista de números cuyos elementos son las cantidades de bolitas rojas en cada
+      celda a lo largo de la fila actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una Lista.
+    */
+        IrAlBorde(Oeste)
+        listaActualDeBolitasRojasEnFila := []
+        while (puedeMover(Este)) {
+            listaActualDeBolitasRojasEnFila :=
+                                listaActualDeBolitasRojasEnFila ++ [nroBolitas(Rojo)]
+            Mover(Este)
+        }
+        return( listaActualDeBolitasRojasEnFila ++ [nroBolitas(Rojo)] )
+}
+
+// Ejercicio 2 // -------------------------------------------------------------------------------------
+
+function cantidadDeRojasADistancia2DelBordeOesteDe_(listaDeCantidadesDeRojas) {
+    /*
+      PROPÓSITO: Describe la cantidad de bolitas rojas que hay en la celda a distancia 2 del borde
+      Oeste.
+      PRECONDICIONES: Deben haber, al menos 2 celdas al Este desde el borde Oeste.
+      PARÁMETROS: *listaDeCantidadesDeRojas := Una Lista de cantidades de bolitas rojas a lo largo
+                                               de una fila.
+      RESULTADO: Un número.
+    */
+        return( primero(resto (resto(listaDeCantidadesDeRojas)) ) )
+}
+
+// Ejercicio 3 // -------------------------------------------------------------------------------------
+
+//a// -------------------------------------------------------------------------------------------------
+
+function las3PrimerasDe_ConLaMismaCantidad(listaDeCantidadesDeRojas) {
+    /*
+      PROPÓSITO: Indica si los primeros 3 elementos de la dada "lista.."" tienen el mismo número.
+      PRECONDICIONES: La dada "listaDeCantidadesDeRojas" debe tener al menos 3 elementos.
+      PARÁMETROS: *listaDeCantidadesDeRojas=Una lista de cantidades de bolitas rojas a lo largo 
+                                            de una fila.
+      RESULTADO: Un booleano.
+    */
+        return( ( primero(listaDeCantidadesDeRojas) ==
+                  primero(resto(listaDeCantidadesDeRojas)) ) &&
+                ( primero(resto(listaDeCantidadesDeRojas)) ==
+                  primero(resto(resto(listaDeCantidadesDeRojas))) )
+              )
+}
+
+//b// -------------------------------------------------------------------------------------------------
+
+function las3PrimerasDe_ConDistintasCantidades(listaDeCantidadesDeRojas) {
+    /*
+      PROPÓSITO: Indica si los primeros 3 elementos de la dada "lista.." tienen todos diferentes números.
+      PRECONDICIONES: la dada "listaDeCantidadesDeRojas" debe tener al menos 3 elementos.
+      PARÁMETROS: *listaDeCantidadesDeRojas=Una lista de cantidades de bolitas rojas a lo largo 
+                                            de una fila.
+      RESULTADO: Un booleano.
+    */
+    return( ( primero(listaDeCantidadesDeRojas) /=
+              primero(resto(listaDeCantidadesDeRojas)) ) &&
+            ( primero(listaDeCantidadesDeRojas) /=
+              primero(resto(resto(listaDeCantidadesDeRojas))) ) &&
+            ( primero(resto(listaDeCantidadesDeRojas)) /=
+              primero(resto(resto(listaDeCantidadesDeRojas))) )
+          )
+}
+
+//c// -------------------------------------------------------------------------------------------------
+
+function hayAlgunaCantidadIgualEnLas3PrimerasDe_(listaDeCantidadesDeRojas) {
+    /*
+      PROPÓSITO: Indica si en algún caso de los 3 primeros elementos de la dada "listaDeCantidadesDeRojas"
+      hay la misma cantidad en 2 de los mismos.
+      PRECONDICIONES: la dada "listaDeCantidadesDeRojas" debe tener al menos 3 elementos.
+      PARÁMETROS: *listaDeCantidadesDeRojas=Una lista de cantidades de bolitas rojas a lo largo 
+                                            de una fila.
+      RESULTADO: Un booleano.
+    */
+        return(( ( primero(listaDeCantidadesDeRojas) ==
+              primero(resto(listaDeCantidadesDeRojas)) ) ||
+            ( primero(listaDeCantidadesDeRojas) ==
+              primero(resto(resto(listaDeCantidadesDeRojas))) ) ||
+            ( primero(resto(listaDeCantidadesDeRojas)) ==
+              primero(resto(resto(listaDeCantidadesDeRojas))) )
+          ))
+}
+
+// Ejercicio 4 // ------------------------------------------------------------------------------------
+
+function direccionesAlBorde() {
+    /*
+      PROPÓSITO: Retorna una lista de direcciones en las que el cabezal no se puede mover desde la
+      celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una Lista de direcciones.
+    */
+        listaDeDireccionesAlBorde := []
+        direccionActual := Este
+        while(direccionActual /= Norte) {
+            listaDeDireccionesAlBorde := listaDeDireccionesAlBorde ++ 
+                                         listaDeDireccionActual_SiEstaAlBorde(direccionActual)
+            direccionActual := siguiente(direccionActual)
+        }
+        listaDeDireccionesAlBorde := listaDeDireccionesAlBorde ++ 
+                                         listaDeDireccionActual_SiEstaAlBorde(direccionActual)
+        
+        return(listaDeDireccionesAlBorde)
+}
+
+function listaDeDireccionActual_SiEstaAlBorde(direccionActual) {
+    /*
+      PROPÓSITO: Devuelve la dada "direccionActual" si ésta no permite el movimiento del cabezal.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *direccionActual= Valor de tipo dirección.
+      RESULTADO: Una Lista.
+    */
+        direccionAAnalizar := []
+        if(not puedeMover(direccionActual)) {
+            direccionAAnalizar := direccionAAnalizar ++ [direccionActual]
+        }
+        return(direccionAAnalizar)
+}
+
+// Ejercicio 5 // ------------------------------------------------------------------------------------
+
+function esSingular_(lista) {
+    /*
+      PROPÓSITO: Determina si la dada "lista" tiene exactamente un único elemento.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Un valor de tipo Lista de Elementos.
+      RESULTADO: Un bool.
+    */
+        return( not esVacía(lista) && esVacía(resto(lista)) )
+}
+
+
+
+
+
+
+
+
+
+
+
+

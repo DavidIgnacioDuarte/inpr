@@ -1,0 +1,335 @@
+program{
+    return(esCapicua(Boleto(nroLinea <- 324, tramo <- 2, serie <- "A", nroBoleto <- 23111)))
+}
+type Boleto is record{
+    /*
+        Proposito Modelar boletos de colectivos.
+        Invariante de Rep: 
+                            ● el número de línea al cual pertenece el boleto (p.ej. 
+                              324, 159, 257, 85, etc.),
+                              
+                            ● la cantidad de tramos para la cual se sacó dicho boleto (
+                              siendo 1 el mínimo y 4 el máximo)
+                              
+                            ● la serie, que puede estar compuesta de números y letras
+                            
+                            ● el número del boleto, que corresponde a un número siempre
+                              cinco dígitos.
+    */
+    field nroLinea  // un numero de una linea
+    field tramo     // un numero entre 1 y 4
+    field serie     // un string
+    field nroBoleto // numero de boleto
+}
+type Carta is record{
+    /*
+        Proposito: Modelar las cartas españolas.
+        Invariante de Rep: Los numeros estan entre (1 y 7) && (10 y 12)
+    */
+    field palo   
+    field numero 
+}
+type Palo is variant{
+    case Bastos  {}
+    case Espadas {}
+    case Oros    {}
+    case Copas   {}
+}
+//-----------------------Ejercicio 1-------------------------------
+function cantidadDeRojasEnLaFilaActual(){
+    /*
+        Proposito: Describir la cantidad de bolitas Rojas que hay en la 
+                   fila actual.
+        Precondicion: Ninguna.
+        Devuelve: Lista de numeros.
+        Observación: Las devolvera dentro de una lista.
+    */
+    bolitasQueYaVi := []
+    IniciarRecorrido(Este) 
+    while(puedeMover(Este)){
+        bolitasQueYaVi := bolitasQueYaVi ++ [nroBolitas(Rojo)]
+        Mover(Este)
+    }
+    bolitasQueYaVi := bolitasQueYaVi ++ [nroBolitas(Rojo)]
+    return(bolitasQueYaVi)
+}
+procedure IniciarRecorrido(direccion){
+    /*
+        Proposito: Ir al borde opuesto de la "direccion" a la que se 
+                   precisa iniciar el recorrido.
+        Precondicion: Ninguna.
+        Parametros:  direccion - del tipo direccion.
+    */
+    IrAlBorde(opuesto(direccion))
+}
+//-----------------------Ejercicio 2---------------------------
+function  cantidadDeRojasADistancia2DelBordeOesteDe_(){
+    /*
+        Proposito: Describir la cantidad de bolitas Rojas que hay en 
+                   la celda con distancia 2 del borde Oeste.
+        Precondicion: Ninguna.
+        Devuelve: Lista de numeros.
+    */
+    bolitasRojasEnLaCelda2DelBordeOeste := []
+    IrAlBorde(Oeste)
+    IrALaCeldaDeDistancia2()
+    bolitasRojasEnLaCelda2DelBordeOeste := bolitasRojasEnLaCelda2DelBordeOeste 
+                                           ++ [nroBolitas(Rojo)]
+    return(bolitasRojasEnLaCelda2DelBordeOeste)
+}
+procedure IrALaCeldaDeDistancia2(){
+    /*
+        Proposito: Moverme 2 veces hacia la direccion Este.
+        Precondicion: Debe haber al menos 2 celdas al Este.
+        
+    */
+    repeat(2){
+        Mover(Este)
+    }
+}
+//-----------------------Ejercicio 3A---------------------------
+function las3PrimerasDe_ConLaMismaCantidad(lista){
+    /*
+        Proposito: Describir si las 3 primeras celdas de la "lista" 
+        tienen la misma cantidad de bolitas rojas.
+        Precondicion: La lista deberia tener como minimo 3 elementos.
+        Parametros: lista - del tipo lista.
+        Devuelve: Booleano.
+    */
+    return(primero(lista) == segundo(lista) && tercero(lista) == primero(resto(lista)))
+}
+function segundo(lista){
+    return(primero(resto(lista)))
+}
+function tercero(lista){
+    return(primero(resto(resto(lista))))
+}
+
+//-----------------------Ejercicio 3B---------------------------
+function las3PrimerasDe_ConDistintasCantidades(lista){
+    /*
+        Proposito: Describir si todos los elementos de la "lista" actual 
+                   son distintos.
+        Precondicion: Ninguna.
+        Parametros: lista - del tipo lista.
+        Devuelve: Booleano.
+    */
+    return(primero(lista) /= segundo(lista) && tercero(lista) /= primero(resto(lista)))
+}
+
+//-----------------------Ejercicio 3C---------------------------
+function hayAlgunaCantidadIgualEnLas3PrimerasDe_(lista){
+    /*
+        Proposito: Describir si hay la misma cantidad de bolitas de 
+                   cualquier color en la celda actual.
+        Precondicion: Ninguna.
+        Parametros: lista- del tipo lista.
+        Devuelve: Booleano.
+    */
+    return(primero(lista) /= segundo(lista) || tercero(lista) /= primero(resto(lista)))
+}
+//-----------------------Ejercicio 4----------------------------
+function direccionesAlBorde(){
+    /*
+        Proposito: Describir en una lista las direcciones a las cuales
+                   no me puedo mover.
+        Precondicion: Ninguna.
+        Devuelve: Lista de direcciones.
+    */
+    direccionesSinAcceso := []
+    direccionActual := Norte
+    while(direccionActual /= Oeste){
+        direccionesSinAcceso := verificarDireccionActual(direccionActual, direccionesSinAcceso)
+        direccionActual := siguiente(direccionActual)
+    }
+    direccionesSinAcceso := verificarDireccionActual(direccionActual, direccionesSinAcceso)
+    return(direccionesSinAcceso)
+}
+function verificarDireccionActual(direccion, listaDeDirecciones){
+    /*
+        Proposito: Describir una "listaDeDirecciones" con "direcciones"
+                   a las cuales no me puedo mover como elementos.
+        Precondicion: Ninguna.
+        Parametros: direccion - del tipo direccion.
+                    listaDeDirecciones - del tipo lista.
+        Devuelve: una lista de direcciones.
+    */
+    acumulador := listaDeDirecciones
+    if(not(puedeMover(direccion))){
+        acumulador := acumulador ++ [direccion]
+    }
+    return(acumulador)
+}
+//-----------------------Ejercicio 5----------------------------
+function esSingular_(lista){
+    /*
+        Proposito: Describir si la "lista" actual tiene un solo 
+                   elemento.
+        Precondicion: Ninguna.
+        Parametros: lista- del tipo lista.
+        Devuelve: Booleano.
+    */
+    return(not (esVacía(lista)) && esVacía(resto(lista)))
+}
+//-----------------------Ejercicio 6----------------------------
+function haySiguienteTramoEn_(ruta){
+    /*
+        Precondicion: Describe si la ruta tiene al menos un tramo 
+                      completo.
+        Precondicion: Ninguna.
+        Parametro: ruta- del tipo lista de direcciones.
+        Devuelve: un Booleano.
+    */
+    return(not(esSingular_(ruta)))
+}
+//-----------------------Ejercicio 6B----------------------------
+function sigueUnaCurvaEn_(ruta){
+    /*
+        Proposito: Describir si en la "ruta" actual el siguiente tramo es una curva.
+        Precondicion: Ninguna.
+        Parametros: ruta- del tipo lista.
+        Devuelve: un booleano.
+    */
+    return(haySiguienteTramoEn_(ruta) && (primero(ruta) /= segundo(ruta)))
+}
+//-----------------------Ejercicio 6C----------------------------
+function siguienteCurvaDerechaEn_(ruta){
+    /*
+        Proposito: Describir si en la "ruta" actual el siguiente tramo es una curva 
+                   hacia la derecha.
+        Precondicion: Ninguna.
+        Parametros: ruta- del tipo lista.
+        Devuelve: un booleano.
+    */
+    return(haySiguienteTramoEn_(ruta) && segundo(ruta) == siguiente(primero(ruta)))
+}
+//-----------------------Ejercicio 6D----------------------------
+function siguienteCurvaIzquierdaEn_(ruta){
+        /*
+        Proposito: Describir si en la "ruta" actual el siguiente tramo es una curva 
+                   hacia la izquierda.
+        Precondicion: Ninguna.
+        Parametros: ruta- del tipo lista.
+        Devuelve: un booleano.
+    */
+    return(haySiguienteTramoEn_(ruta) && segundo(ruta) == previo(primero(ruta)))
+}
+//-----------------------Ejercicio 6D----------------------------
+function siguienteRectaEn_(ruta){
+    /*
+        Proposito: Describir si en la "ruta" actual el siguiente tramo es una recta.
+        Precondicion: Ninguna.
+        Parametros: ruta- del tipo lista.
+        Devuelve: un booleano.
+    */
+    return(haySiguienteTramoEn_(ruta) && primero(ruta) == segundo(ruta))
+}
+//-----------------------Ejercicio 7a----------------------------
+function primeraCartaDeLaMano_(cartasEnLaMano){
+    /*
+        Proposito: Describir la primera carta de "cartasEnLaMano".  
+        Precondicion: Ninguna.
+        Parametros: cartasEnLaMano- del tipo lista de cartas.
+        Devuelve: una lista de cartas.
+    */
+    return(primero(cartasEnLaMano))
+}
+//-----------------------Ejercicio 7b----------------------------
+function segundaCartaDeLaMano_(cartasEnLaMano){
+    /*
+        Proposito: Describir la segunda carta de "cartasEnLaMano".  
+        Precondicion: Ninguna.
+        Parametros: cartasEnLaMano- del tipo lista de cartas.
+        Devuelve: una lista de cartas.
+    */
+    return(segundo(cartasEnLaMano))
+}
+//-----------------------Ejercicio 7d----------------------------
+function laMano_LuegoDeRobarUnaCartaDe_(mano, mazo){
+    /*
+        Proposito: Describir una "mano" despues de robar una carta del "mazo".
+        Precondicion: Ninguna.
+        Parametros: mano- del tipo lista de cartas.
+                    mazo- del tipo lista de cartas.
+        Devuelve: una lista de cartas.
+    */
+    return(mano ++ [primero(mazo)])
+}
+//-----------------------Ejercicio 7e----------------------------
+function laManoLuegoDeJugarUnaCarta(mano){
+    /*
+        Proposito: Describir una "mano" despues de jugar una carta.
+        Precondicion: Ninguna.
+        Parametros: mano- del tipo lista de cartas.
+        Devuelve: una lista de cartas.
+    */   
+    return(resto(mano))
+}
+ function laManoLuegoDeJugarLaSegunda(mano){
+         /*
+        Proposito: Describir una "mano" despues de jugar la segunda carta.
+        Precondicion: Ninguna.
+        Parametros: mano- del tipo lista de cartas.
+        Devuelve: una lista de cartas.
+    */   
+    return([primero(mano)] ++ [tercero(mano)])
+ }
+//-----------------------Ejercicio 9----------------------------
+function tieneEnvido(mano){
+      /*
+        Proposito: Describir si una "mano" tiene envido.
+        Precondicion: Ninguna.
+        Parametros: mano- del tipo lista de cartas.
+        Devuelve: un booleano.
+    */   
+    return( palo(primero(mano)) == palo(segundo(mano)) || 
+            palo(primero(mano)) == palo(tercero(mano)) ||
+            palo(segundo(mano)) == palo(tercero(mano)) )
+}
+function envidoSiNoSonBuenas(mano){
+    /*
+        Proposito: Describir cuanto de envido tiene la "mano" actual.
+        Precondicion: Ninguna.
+        Parametros: mano- del tipo lista de cartas.
+        Devuelve: un numero.
+    */
+    return(choose
+           [numero(primero(mano)) + numero(segundo(mano)) + 20] when (tieneEnvido(mano) && palo(primero(mano)) == palo(segundo(mano)))
+           [numero(primero(mano)) + numero(tercero(mano)) + 20] when (tieneEnvido(mano) && palo(primero(mano)) == palo(tercero(mano)))
+           [numero(segundo(mano)) + numero(tercero(mano)) + 20] when (tieneEnvido(mano) && palo(segundo(mano)) == palo(tercero(mano)))
+            boom("esto no deberia pasar.") otherwise
+          )
+}
+ 
+//-----------------------Ejercicio 11----------------------------
+function esCapicua(boleto){
+    /*
+        proposito: Describir si el "boleto" actual tiene su numero capicua.
+        Precondicion: Ninguna.
+        Parametros: boleto- del tipo boleto.
+        Devuelve: un booleano.
+    */
+    return((primerDigito(nroBoleto(boleto)) == ultimoDigito(nroBoleto(boleto)))     &&
+    (segundoDigito(nroBoleto(boleto)) == anteUltimoDigito(nroBoleto(boleto)))
+    )
+}
+function primerDigito(numero){
+    //Solo se palica a un numero de 5 digitos
+    return(numero div 10000)
+}
+function segundoDigito(numero){
+    return((numero div 10000) mod 10)
+}
+function anteUltimoDigito(numero){
+    return((numero mod 100) div 10)
+}
+function ultimoDigito(numero){
+    return(numero mod 10)
+}
+//-----------------------Ejercicio 12----------------------------
+
+
+
+
+
+

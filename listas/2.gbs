@@ -1,0 +1,58 @@
+program {
+    
+        return(cantidadDeRojasADistancia2DelBordeOesteDe_(cantidadesDeRojasEnFilaActual()))
+    
+}
+
+function cantidadesDeRojasEnFilaActual() {
+    /*
+      PROPÓSITO: Describe una Lista de números cuyos elementos son las cantidades de bolitas rojas en cada
+      celda a lo largo de la fila actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una Lista.
+    */
+        IrAlBorde(Oeste)
+        listaActualDeBolitasRojasEnFila := []
+        while (puedeMover(Este)) {
+            listaActualDeBolitasRojasEnFila :=
+                                listaActualDeBolitasRojasEnFila ++ [nroBolitas(Rojo)]
+            Mover(Este)
+        }
+        return( listaActualDeBolitasRojasEnFila ++ [nroBolitas(Rojo)] )
+}
+
+function cantidadDeRojasADistancia2DelBordeOesteDe_(listaDeCantidadesDeRojas) {
+    /*
+      PROPÓSITO: Describe la cantidad de bolitas rojas que hay en la celda a distancia 2 del borde
+      Oeste.
+      PRECONDICIONES: Deben haber, al menos 2 celdas al Este desde el borde Oeste.
+      PARÁMETROS: *listaDeCantidadesDeRojas := Una Lista de cantidades de bolitas rojas a lo largo
+                                               de una fila.
+      RESULTADO: Un número.
+    */
+        return( primero(resto (resto(listaDeCantidadesDeRojas)) ) )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,56 @@
+program{
+
+}
+
+function clubConMasMotoqueros(){
+    /* Proposito:Determinar cual es el club que tiene mas motoqueros activos en la convencion
+       Precondiciones:Tiene que existir al menos un club
+       Resultado:Un club/numero.
+        Observaciones:Los clubes se representan con numero.
+        Para solucionar usaremos un recorrido de busqueda sobre clubes
+    */
+    AsignarClubATodosLosMotoquerosActivos()
+    IrAAlgúnMotoqueroDelClub_(1) // Me posiciono en el primer club
+    maximoDeMotoqueros:= cantidadDeMiembrosDelClubActual()// Almaceno la cantidad de miembros del primer club
+    clubQueTieneMasMiembrosActivos:= 1
+    clubActual:= 1
+      // IniciarRecorrido
+     while(hayMasClubesQueProcesar(clubActual)){
+         if(maximoDeMotoqueros < cantidadDeMiembrosDelClubActual()){
+            maximoDeMotoqueros:=cantidadDeMiembrosDelClubActual()
+            clubQueTieneMasMiembrosActivos:=clubActual
+         }
+        //ṕrocesar elemento
+        clubActual:=siguiente(clubActual) // Guarde el siguiente club
+        IrAAlgúnMotoqueroDelClub_(clubActual)  // Ir al siguiente club
+        //pasarAsiguienteElemento
+    }
+    if(maximoDeMotoqueros < cantidadDeMiembrosDelClubActual()){
+            maximoDeMotoqueros:=cantidadDeMiembrosDelClubActual()
+            clubQueTieneMasMiembrosActivos:=clubActual
+         }
+    return (clubQueTieneMasMiembrosActivos)
+}
+
+function hayMasClubesParaProcesar(clubAChequear){
+    /* Proposito:Denotar si hay mas clubes para procesar
+       Parametro:
+       clubAChequer:Club/Numero.Verificar si es el ultimo club
+      Resultado:Valor de Verdad.
+      */
+     return ( clubAChequear < cantidadDeClubesEnLaConvencion())
+
+}
+function cantidadDeMiembrosDelClubActual(){
+    /* Proposito:Denotar la cantidad de miembros de un club actual
+    Precondiciones:Debe estar sobre un motoquero con un club asignado
+    Resultado:Numero
+    */
+    cantDeMotoqueros:=1
+    numeroDeClub:=clubAlQuePerteneceUnMotoquero()
+    while(HayMotoquerosDeEsteClub(numeroDeClub)){
+        cantDeMotoqueros:=cantDeMotoqueros + 1
+        // Aclaracion:Piensen este ejercicio de nuevo ustedes, pero como un recorrido por motoqueros,preguntando si un motoquero es miembro del club que quiero contar.
+
+    }
+}

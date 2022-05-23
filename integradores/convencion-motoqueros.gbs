@@ -1,0 +1,189 @@
+program {
+        return (cantidadDeClubesEnLaConvención())
+}
+
+function cantidadDeClubesEnLaConvención() {
+    /*
+      PROPÓSITO: Determina la cantidad de clubes de motoqueros que hay en la convención.
+      PRECONDICIONES: Ninguna. Es una función total.
+      RESULTADO: Un número.
+      OBSERVACIONES: Es un recorrido por clubes, contando cada uno de ellos.
+    */
+        IniciarRecorrido1__(Sur, Este)
+        próximoClub := 1
+        while(hayMotoquerosActivosSinClub() && not esFinDeRecorrido1__(Sur, Este)) {
+             IrAMotoqueroActivoSinClub()
+             AsignarClub_AMotoquerosConectados(próximoClub)
+             próximoClub := próximoClub + 1
+        }
+        return(próximoClub + 1)
+}
+
+function hayMotoquerosActivosSinClub() {
+    /*
+      PROPÓSITO: Indica si hay motoqueros activos sin club en la convención.
+      PRECONDICIONES: Ninguna. Es una función total.
+      RESULTADO: Un booleano.
+      OBSERVACIONES: Es un recorrido de búsqueda, hasta encontrar el motoquero que busco.
+    */
+        IniciarRecorrido1__(Sur, Este)
+        while(not esElMotoqueroQueBusco() && not esFinDeRecorrido1__(Sur, Este)) {
+            PasarALaSiguienteCeldaDelRecorrido1__(Sur, Este)
+        }
+        return(esElMotoqueroQueBusco())
+}
+
+function esElMotoqueroQueBusco() {
+    /*
+      PROPÓSITO: Indica si el motoquero de la celda actual está activo y no pertenece a un club.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Un booleano.
+    */
+        return(elMotoqueroEstáActivo() && not elMotoqueroPerteneceAUnClub())
+}
+
+procedure IrAMotoqueroActivoSinClub() {
+    /*
+      PROPÓSITO: Mueve al cabezal al motoquero activo sin club siguiente.
+      PRECONDICIONES: Ninguna.
+    */
+          while(not esElMotoqueroQueBusco() && not esFinDeRecorrido1__(Sur, Este)) {
+              PasarALaSiguienteCeldaDelRecorrido1__(Sur, Este)
+          }
+}
+
+procedure AsignarClub_AMotoquerosConectados(númeroDeClub) {
+    /*
+      PROPÓSITO: Marca al motoquero actual y a todos los motoqueros conectados a éste como pertenecientes al 
+      club parametrizado como númeroDeClub.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *númeroDeClub: Es un número indicativo del club perteneciente.
+    */
+          IncluirEnElClubNúmero_(númeroDeClub)
+          AsignarClub_AVecinos(númeroDeClub)
+          while(hayMotoqueroActivoYSinClubConVecinoEn_(númeroDeClub) && not esFinDeRecorrido1__(Sur, Este)) {
+              IrHastaElMotoqueroActivoYSinClubConVecinoEn_(númeroDeClub)
+              IncluirEnElClubNúmero_(númeroDeClub)
+              AsignarClub_AVecinos(númeroDeClub)
+          }
+}
+
+procedure AsignarClub_AVecinos(númeroDeClub) {
+    /*
+      PROPÓSITO: Asigna el club dado por númeroDeClub a los vecinos del motoquero actual que estén activos y
+      sin club.
+      PRECONDICIONES: Ninguna.
+    */
+          if(hayMotoqueroActivoSinClubVecinoAl_(Norte) && puedeMover(Norte)) {
+             Mover(Norte)
+             IncluirEnElClubNúmero_(númeroDeClub)
+             Mover(Sur)
+          }
+          elseif(hayMotoqueroActivoSinClubVecinoAl_(Este) && puedeMover(Este)) {
+             Mover(Este)
+             IncluirEnElClubNúmero_(númeroDeClub)
+             Mover(Oeste)
+          }
+          elseif(hayMotoqueroActivoSinClubVecinoAl_(Oeste) && puedeMover(Oeste)) {
+             Mover(Oeste)
+             IncluirEnElClubNúmero_(númeroDeClub)
+             Mover(Este)
+          }
+          elseif(hayMotoqueroActivoSinClubVecinoAl_(Sur) && puedeMover(Sur)) {
+             Mover(Sur)
+             IncluirEnElClubNúmero_(númeroDeClub)
+             Mover(Norte)
+          }
+}
+
+function hayMotoqueroActivoSinClubVecinoAl_(dirección) {
+    /*
+    */
+      if(puedeMover(dirección)) {
+        Mover(dirección)
+      }
+        return(esElMotoqueroQueBusco())
+}
+
+function hayMotoqueroActivoYSinClubConVecinoEn_(númeroDeClub) {
+    /*
+    */
+        return(esElMotoqueroQueBusco() && (tieneVecinoEn_Al_(númeroDeClub, Norte) ||
+                                           tieneVecinoEn_Al_(númeroDeClub, Oeste) ||
+                                           tieneVecinoEn_Al_(númeroDeClub, Este) ||
+                                           tieneVecinoEn_Al_(númeroDeClub, Sur)))
+                                        
+}
+
+function tieneVecinoEn_Al_(númeroDeClub, dirección1) {
+    /*
+    */
+        BuscarVecinoAl_(dirección1)
+        return(clubAlQuePerteneceElMotoquero() == númeroDeClub)
+}
+
+procedure BuscarVecinoAl_(dirección1) {
+    /*
+    */
+          if(puedeMover(dirección1)) {
+            Mover(dirección1)
+          }
+}
+
+procedure IrHastaElMotoqueroActivoYSinClubConVecinoEn_(númeroDeClub) {
+    /*
+    */
+          IniciarRecorrido1__(Sur, Este)
+          while (hayMotoqueroActivoYSinClubConVecinoEn_(númeroDeClub)) {
+              PasarALaSiguienteCeldaDelRecorrido1__(Sur, Este)
+          }
+}
+
+procedure IniciarRecorrido1__(dir1, dir2) {
+    /*
+    */
+        IrAlBorde(dir1)
+        IrAlBorde(dir2)
+}
+
+procedure PasarALaSiguienteCeldaDelRecorrido1__(dir1, dir2) {
+    /*
+    */
+        if(puedeMover(dir1)) {
+            Mover(dir1)
+        }
+        else {
+            IrAlBorde(dir1)
+            Mover(dir2)
+            }
+        }
+        
+}
+
+function esFinDeRecorrido1__(dir1, dir2) {
+    /*
+    */
+        return (not puedeMover(opuesto(dir1)) && not puedeMover(opuesto(dir2)))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

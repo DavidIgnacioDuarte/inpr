@@ -1,0 +1,75 @@
+function clubConMasMotoqueros(){
+    /*
+    Proposito:Determinar cual es el club que tiene mas motoqueros activos
+    Precondiciones:Debe por lo menos haber un club
+    Resultado:Un club
+    Observaciones:
+    Un club se representa con un numero
+    La estrategia que usaremos es un recorrido de busqueda por clubes ,
+
+    */
+    clubConMasMotoqueros:=1
+    clubActualProcesando:=1
+    AsignarClubATodosLosMotoquerosActivos()
+    IrAlPrimerClub()
+    miembrosDelClub1:=cantidadDeMiembrosDelClubActual()
+    //InicializacionDeRecorrido ,ir al primer club
+    while(hayMasClubesParaProcesar(clubActualProcesando)){
+      if(hayMasMotoquerosEnEsteClub(maximoMiembrosDelClub,cantidadDeMiembrosDelClubActual()){
+        clubConMasMotoqueros:=clubActualProcesando
+        maximoDeMiembrosDeClub:= cantidadDeMiembrosDelClubActual()
+        //Procesar El club(contar la cantidad de motoqueros) y ver si es el club de mayor cantidad
+       }
+     IrAAlgúnMotoqueroDelClub_(clubActualProcesando + 1)
+     // Pasar al proximo club
+   }
+   if(hayMasMotoquerosEnEsteClub(maximoMiembrosDelClub,cantidadDeMiembrosDelClubActual()){
+     clubConMasMotoqueros:=clubActualProcesando
+     maximoDeMiembrosDeClub:= cantidadDeMiembrosDelClubActual()
+     //Caso de borde
+    }
+    return (clubConMasMotoqueros)
+}
+
+function hayMasMotoquerosEnEsteClub(cantDeMiembrosDeUnClub,cantDeMiembrosDeOtroClub)
+/*
+Completen el contrato(recuerden el ejercicio en papel)
+ */
+return (choose cantDeMiembrosDeUnClub   when (cantDeMiembrosDeUnClub > cantDeMiembrosDeOtroClub)
+               cantDeMiembrosDeOtroClub otherwise )
+
+procedure irAlPrimerClub(){
+    /* Proposito:Ir al primer club de una convencion
+       Precondiciones:Debe haber al menos un club
+      Observaciones:
+     */
+       IrAAlgúnMotoqueroDelClub_(1)
+
+}
+
+function hayMasClubesParaProcesar(clubQueEstoyProcesando){
+    /* Proposito:Indica si hay mas clubes para procesar
+    Precondiciones:Ninguna
+    Parametro:
+    clubQueEstoyProcesando:Es un club.Representa
+    Resultado:Valor de verdad
+   */
+   return (clubQueEstoyProcesando < cantidadDeClubesEnLaConvención())
+
+}
+
+
+function cantidadDeMiembrosDelClubActual() {
+    /* Proposito:Indicar la cantidad de miembros del club actual,
+       Precondicion:Esta situado sobre un motoquero perteneciente a un club
+       Resultado:Es un numero
+
+    */
+    cantDeMiembrosDelClub=0
+    while(hayMasMiembrosDelClub()){
+        cantDeMiembrosDelClub := cantDeMiembrosDelClub + 1
+        IrAlSiguienteMiembroDelClub()
+    }
+    return ( cantDeMiembrosDelClub + 1)
+}
+// Aclaracion:Piensen este ejercicio de nuevo ustedes, pero como un recorrido por motoqueros,preguntando si un motoquero es miembro del club que quiero contar.

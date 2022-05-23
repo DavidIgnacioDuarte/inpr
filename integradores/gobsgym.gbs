@@ -1,0 +1,80 @@
+program {
+    
+        return( cantidadDeAccesosAl_RegistadosEn_("Hola1", GobsGym(
+                                                                 usos efectuados <- [( TicketDeUso(númeroDeTarjeta <- 1,
+                                                                                                  nombreDeMaquina <- "1M"),
+                                                                                       TicketDeUso(númeroDeTarjeta <- 2,
+                                                                                                  nombreDeMaquina <- "Hola1"),
+                                                                                       TicketDeUso(númeroDeTarjeta <- 3,
+                                                                                                  nombreDeMaquina <- "Hola1") )],
+                                                                 máquinas <- [( Máquina(nombre <- "Hola1",
+                                                                                        tipo <- (TipoDeEjercicio <- Musculación),
+                                                                                        enReparacion <- False,
+                                                                                        precio <- 100),
+                                                                                Máquina(nombre <- "Hola2",
+                                                                                        tipo <- (TipoDeEjercicio <- Cardio),
+                                                                                        enReparacion <- False,
+                                                                                        precio <- 200),
+                                                                                Máquina(nombre <- "Hola3",
+                                                                                        tipo <- (TipoDeEjercicio <- Fitness),
+                                                                                        enReparacion <- True,
+                                                                                        precio <- 300) )]
+                                                )
+               )
+    
+}
+
+
+type TipoDeEjercicio is variant {
+    
+     case Musculación{}
+     case Cardio{}
+     case Fitness {}
+}
+
+type Máquina is record {
+    /*
+      PROPÓSITO: modela un máquina de GobsGym
+      INV.REP.:
+                * "nombre" no puede estar vacío
+                * "precio" es >= 0
+    */
+     field nombre // String
+     field tipo // TipoDeEjercicio
+     field enReparación // Booleano
+     field precio // Número
+}
+
+type TicketDeUso is record {
+    /*
+      PROPÓSITO: modela el uso de una máquina por un deportista
+      INV.REP.:
+                * "númeroDeTarjeta" es un número >=0
+                * "nombreDeMáquina" no puede estar vacío
+    */
+     field númeroDeTarjeta // Número
+     field nombreDeMáquina // String
+}
+
+type GobsGym is record {
+    /*
+      PROPÓSITO: modela una plataforma de registro de las
+      máquinas usadas en el gimnasio
+      INV.REP.: "máquinas" no contiene dos máquinas con el mismo nombre
+    */
+     field usosEfectuados // [TicketDeUso]
+     field máquinas // [Máquina]
+}
+
+
+function cantidadDeAccesosAl_RegistadosEn_(nombreDeMaquina, gobsGym) {
+    /*
+      PROPÓSITO: Describe la cantidad de contrataciones que se realizaron para la máquina dada
+      por "nombreDeMaquina" en el sistema "gobsGym".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *nombreDeMaquina= Es un valor de tipo String.
+                  *gobsGym= Es un valor de tipo GobsGym.
+      RESULTADO: Un número.
+    */
+        return(usosEfectuados(gobsGym | máquinas <- ([Máquina(Máquina | nombre <- "nombreDeMaquina")]) ) )
+}

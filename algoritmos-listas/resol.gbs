@@ -1,0 +1,651 @@
+program {
+    
+        return( sinDuplicados_([1,1,2,2,3,3,3,3,5,4,5,5,4,4]) )
+    
+}
+
+// Ejercicio 1 // ------------------------------------------------------------------------
+
+procedure PonerColores_EnLaCeldaActual(listaDeColores) {
+    /*
+      PROPÓSITO: Pone una bolita del color correspondiente por cada uno de los elementos 
+      de la dada "listaDeColores", en la celda actual.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeColores= Es un valor de tipo Lista De Colores.
+      OBSERVACIONES: Es un recorrido por la lista.
+    */
+        listaAUsar := listaDeColores
+        while(not esVacía(listaAUsar)) {
+            Poner(primero(listaAUsar))
+            listaAUsar := resto(listaAUsar)
+        }
+}
+
+//Usar foreach.
+
+// Ejercicio 2 // ---------------------------------------------------------------------
+
+procedure RecorrerCamino_(listaDeDirecciones) {
+    /*
+      PROPÓSITO: Mueve al cabezal en cada dirección en orden determinada por la dada
+      "listaDeDirecciones".
+      PRECONDICIONES: Deben haber, al menos, la cantidad de celdas en cada dirección 
+      como elemento de cada dirección tenga la dada "listaDeDirecciones".
+      PARÁMETROS: *listaDeDirecciones= [Direcciones]
+    */
+        foreach direccion in listaDeDirecciones {
+            Mover(direccion)
+        }
+}
+
+// Ejercicio 3 // ---------------------------------------------------------------------
+
+function aparicionesDeColor_(colorBuscado) {
+    /*
+      PROPÓSITO: Describe una lista de números que indican para cada una de las celdas
+      del tablero recorridas en dirección principal Norte y dirección secundaria Oeste,
+      la cantidad de bolitas del dado "colorBuscado".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *colorBuscado= Un valor de tipo Color.
+      RESULTADO: Una Lista de Números.
+    */
+        listaDelColorBuscado := []
+        IniciarRecorrido_(Norte, Oeste)
+        while (not estoyAlFinal_(Norte, Oeste)) {
+            listaDelColorBuscado := listaDelColorBuscado ++
+                                    [nroBolitas(colorBuscado)]
+            PasarAlSiguienteElemento_(Norte, Oeste)
+        }
+        return(listaDelColorBuscado ++ [nroBolitas(colorBuscado)])
+}
+
+procedure IniciarRecorrido_(dirPrincipal, dirSecundaria) {
+    /*
+    */
+        IrAlBorde(opuesto(dirPrincipal))
+        IrAlBorde(opuesto(dirSecundaria))
+}
+
+function estoyAlFinal_(dirPrin, dirSec) {
+    /*
+    */
+        return( not puedeMover(dirPrin) && not puedeMover(dirSec) )
+}
+
+procedure PasarAlSiguienteElemento_(dirPrin1, dirSec2) {
+    /*
+    */
+        if(puedeMover(dirPrin1)) {
+            Mover(dirPrin1)
+        }
+        else {
+            IrAlBorde(opuesto(dirPrin1))
+            Mover(dirSec2)
+        }
+}
+
+// Ejercicio 4 // ----------------------------------------------------------------------
+
+procedure Poner_Bolitas_EnElTablero(listaDeNumeros, color) {
+    /*
+      PROPÓSITO: Pone en cada celda del tablero la cantidad indicada por cada elemento
+      de la dada "listaDeNumeros" de bolitas del dado "color" en un recorrido teniendo
+      como dirección principal Norte y dirección secundaria Oeste.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Números.
+                  *color= Es un valor de tipo color.
+      OBSERVACIONES: Si hubiera menos números que celdas, en las celdas restantes 
+      no se pondrán bolitas, y si hubiera más números que celdas, se ignoran los 
+      números sobrantes.
+    */
+        listaDeCantidades := listaDeNumeros
+        IniciarRecorrido_(Norte, Oeste)
+        while (not esVacía(listaDeCantidades)
+               && 
+               not estoyAlFinal_(Norte, Oeste) ) {
+            Poner__Veces(color, primero(listaDeCantidades))
+            listaDeCantidades := resto(listaDeCantidades)
+            PasarAlSiguienteElemento_(Norte, Oeste)
+        }
+}
+
+procedure Poner__Veces(colorAPoner, cantidad) {
+    /*
+    */
+        repeat(cantidad) {
+            Poner(colorAPoner)
+        }
+}
+
+// Ejercicio 5 // ---------------------------------------------------------------------
+
+function coloresEnLaCeldaActual() {
+    /*
+      PROPÓSITO: Describe una lista con los colores que hay en la celda actual.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Una Lista de Colores.
+      OBSERVACIONES: El valor mínimo de elementos será 0  el máximo 4.
+      Recorrido por colores.
+    */
+        listaDeColoresDeCeldaActual := []
+        colorActual := minColor()
+        while(colorActual /= maxColor()) {
+            listaDeColoresDeCeldaActual :=
+                listaDeColoresDeCeldaActual ++ listaDeColorActualSiHay(colorActual)
+            colorActual := siguiente(colorActual)
+        }
+        return(listaDeColoresDeCeldaActual ++ listaDeColorActualSiHay(colorActual))
+        //Ahora sí se analiza si hay color verde. En caso de que hayan más colores
+        //esta estrategia generalizada funcionaría.
+}
+
+function listaDeColorActualSiHay(color) {
+    /*
+      PROPÓSITO: Describe una lista de colores de un único elemento si hay una bolita
+      del dado "color" en la celda actual.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *color= valor de tipo Color.
+      RESULTADO: Una Lista.
+    */
+        listaActual := []
+        if(hayBolitas(color)) {
+            listaActual:= listaActual ++ [color]
+        }
+        return(listaActual)
+}
+
+// Ejercicio 6 // ---------------------------------------------------------------------
+
+function aparicionesDelColor_EnElCamino_(colorBuscado, direccionesDelCamino) {
+    /*
+      PROPÓSITO: Describe una lista con la cantidad de bolitas del dado "colorBuscado"
+      a lo largo del recorrido determinado por la dada "direccionesDelCamino".
+      PRECONDICIONES: Deben haber, al menos, la cantidad de celdas en cada dirección 
+      como elemento de cada dirección tenga la dada "direccionesDelCamino".
+      PARÁMETROS: *colorBuscado= valor de tipo color.
+                  *direccionesDelCamino= [Direcciones]
+      RESULTADO: Una Lista de Números.
+    */
+        listaDeRecorrido := direccionesDelCamino
+        listaCreada := []
+        while(not esVacía(listaDeRecorrido)) {
+            Mover(primero(listaDeRecorrido))
+            listaDeRecorrido := resto(listaDeRecorrido)
+            listaCreada := listaCreada ++ [nroBolitas(colorBuscado)]
+        }
+        return( listaCreada )
+}
+
+// Ejercicio 7 // ---------------------------------------------------------------------
+
+function longitudDe_(lista) {
+    /*
+      PROPÓSITO: Determina la cantidad de elementos de la dada "lista".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Una Lista de Elementos.
+      RESULTADO: Un número.
+    */
+        cantidadDeElementosContados := 0
+        listaActualAContar := lista
+        while(not esVacía(listaActualAContar)) {
+            cantidadDeElementosContados :=
+                    cantidadDeElementosContados + 1
+            listaActualAContar := resto(listaActualAContar)
+        }
+        return(cantidadDeElementosContados)
+}
+
+// Ejercicio 8 // ----------------------------------------------------------------------
+// 8 a // -----------------------------------------------------------------------------
+function sumatoriaDe_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Describe la suma de todos los elementos de la dada
+      "listaDeNumeros".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Números.
+                   Es la lista de los números a sumar.
+      RESULTADO: Un número.
+      OBSERVACIONES: Es un recorrido por los elementos de la lista.
+    */
+      /*valorDeElementosSumados := 0
+        listaDeNumerosAContar := listaDeNumeros
+        while (not esVacía(listaDeNumerosAContar)) {
+            valorDeElementosSumados := 
+                 valorDeElementosSumados + primero(listaDeNumerosAContar)
+            listaDeNumerosAContar :=
+                 resto(listaDeNumerosAContar)
+        }
+        return(valorDeElementosSumados)
+      */
+        valorDeElementosSumados := 0
+        foreach valor in listaDeNumeros {
+            valorDeElementosSumados := valorDeElementosSumados ++
+                                       valor
+        }
+        return(valorDeElementosSumados)
+        //Recorridos por toda la lista usan foreach.
+        //Recorrido de totalización. Recorro todos los elementos, y en una variable
+        //voy acumulando los valores aplicando determinada operación.
+        //repetición indexada pasa por todos los elementos de la lista.
+}
+
+// 8 b // ----------------------------------------------------------------------------
+
+function productoriaDe_(listaDeNumeros) {
+    /*
+      PROPÓSITO: Describe el producto de todos los elementos de la dada
+      "listaDeNumeros".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeNumeros= Es un valor de tipo Lista de Números.
+      RESULTADO: Un número.
+    */
+      /*valorDeElementosMultiplicados := 1
+        listaDeNumerosAMultiplicar := listaDeNumeros
+        while(not esVacía(listaDeNumerosAMultiplicar)) {
+             valorDeElementosMultiplicados := 
+                 valorDeElementosMultiplicados * primero(listaDeNumerosAMultiplicar)
+            listaDeNumerosAMultiplicar :=
+                 resto(listaDeNumerosAMultiplicar)
+        }
+        return(valorDeElementosMultiplicados)
+      */
+        valorDeElementosMultiplicados := 1 //valor neutro de multiplicación
+        foreach valor in listaDeNumeros {
+            valorDeElementosMultiplicados := valorDeElementosMultiplicados *
+                                             valor
+        }
+        return(valorDeElementosMultiplicados)
+}
+
+// 8c // ------------------------------------------------------------------------------
+
+function cantidadDeBolitas_DelTablero(color) {
+    /*
+      PROPÓSITO: Indica la cantidad total de bolitas del dado "color" que hay a lo largo
+      de todo el tablero.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *color= Es un valor de tipo color.
+      RESULTADO: Un número.
+    */
+        IniciarRecorrido_(Norte, Este)
+        cantidadDeBolitasContadas := totalDeBolitasDe_SiHay(color)
+        while(not estoyAlFinal_(Norte, Este)) {
+             PasarAlSiguienteElemento_(Norte, Este)
+             cantidadDeBolitasContadas :=
+                    cantidadDeBolitasContadas + totalDeBolitasDe_SiHay(color)
+        }
+        return( cantidadDeBolitasContadas )
+}
+
+function totalDeBolitasDe_SiHay(color) {
+    /*
+    */
+    numeroDeBolitasActual := 0
+    if(hayBolitas(color)) {
+        numeroDeBolitasActual :=
+              numeroDeBolitasActual + nroBolitas(color)
+    }
+    return(numeroDeBolitasActual)
+}
+
+//Ejercicio 9// ------------------------------------------------------------------------
+// 9 a // ------------------------------------------------------------------------------
+
+function repetición_VecesDe_(cantidad, elemento) {
+    /*
+      PROPÓSITO: Describe una lista de elementos de tipo "elemento", siendo este último
+      repetido la cantidad de veces indicada por "cantidad".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *cantidad= Un número.
+                  *elemento= Un Elemento que puede ser incluido en una Lista.
+      RESULTADO: Una Lista de Elementos.
+    */
+        listaActual := []
+        repeat (cantidad) {
+            listaActual := listaActual ++ [elemento]
+        }
+        return(listaActual)
+}
+
+// 9 b // ----------------------------------------------------------------------------
+
+function laLista_Clonada_Veces(lista, cantidad) {
+    /*
+      PROPÓSITO: Describe una lista resultante de clonar la dada "lista" una cantidad
+      de veces indicada por la dada "cantidad".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Una Lista de Elementos.
+                  *cantidad= Un número.
+      RESULTADO: Una Lista de Elementos.
+    */
+        listaActual := lista
+        repeat(cantidad - 1) {
+              listaActual := listaActual ++ listaActual
+        }
+        return(listaActual)
+}
+
+// 9 c // -----------------------------------------------------------------------------
+
+function losElementosDe_Clonados_Veces(lista, cantidad) {
+    /*
+      PROPÓSITO: Describe a la lista resultante de clonar la dada "lista" con cada uno de
+      sus elementos en orden, la cantidad de veces dada por "cantidad".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Un valor de tipo Lista de Elementos.
+                  *cantidad= Un valor de tipo Número.
+      RESULTADO: Una Lista.
+    */
+        listaDada := lista
+        listaClonada := []
+        while(not esVacía(listaDada)) {
+            listaClonada := listaClonada ++
+                            repetición_VecesDe_(cantidad, primero(listaDada))
+            listaDada := resto(listaDada)
+        }
+        return(listaClonada)
+}
+
+
+// Ejercicio 10 // --------------------------------------------------------------------
+
+function reversoDe_(listaARevertir) {
+    /*
+      PROPÓSITO: Describe a la lista con los mismos elementos que la dada "listaARevertir" 
+      pero con sus elementos en orden reverso.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaARevertir= Un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista.
+    */
+        listaDada := listaARevertir
+        listaReversa := []
+        while(not esVacía(listaDada)) {
+            listaReversa := listaReversa ++
+                            [ultimoElementoDe_(listaDada)]
+            listaDada := sinElUltimo_(listaDada)
+        }
+        return(listaReversa)
+}
+
+
+function ultimoElementoDe_(listaDada) {
+    /*
+    */
+        listaABuscar := listaDada
+        ultimoElemento := primero(listaABuscar)
+        while(not esVacía(resto(listaABuscar))) {
+            ultimoElemento := primero(resto(listaABuscar))
+            listaABuscar := resto(listaABuscar)
+        }
+        return(ultimoElemento)
+}
+
+
+function sinElUltimo_(lista) {
+    /*
+    */
+        listaDada := lista
+        listaSinUltimo := []
+        while(not esVacía(resto(listaDada))) {
+            listaSinUltimo := listaSinUltimo ++ [primero(listaDada)]
+            listaDada := resto(listaDada)
+        }
+        return(listaSinUltimo)
+}
+
+
+// Ejercicio 11 // --------------------------------------------------------------------
+
+function direccionesOpuestasDe_(listaDeDirecciones) {            
+    /* 
+      PROPÓSITO: Describe la lista resultante de los valores opuestos de la dada
+      "listaDeDirecciones".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeDirecciones= Es un valor de tipo Lista de Direcciones, 
+                   que determinará las direcciones opuestas de la nueva lista.
+      RESULTADO: Una Lista de Direcciones.
+      OBSERVACIONES: Recorrido de transformación.
+    */
+        listaOpuesta := []
+        foreach direccion in listaDeDirecciones {
+                listaOpuesta := listaOpuesta ++ [opuesto(direccion)]
+        }
+        return (listaOpuesta)
+}
+
+
+function siguientesDe_(listaDeColores) {
+    /*
+      PROPÓSITO: Describe la lista resultante de los valores siguientes de la dada
+      "listaDeColores".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDeColores= Es un valor de tipo Lista de Colores, que 
+                   determinará los colores siguientes de la nueva lista.
+      RESULTADO: Una Lista de Colores.
+      OBSERVACIONES: Recorrido de transformación.
+    */
+        listaDeSiguientes := []
+        foreach color in listaDeColores {
+            listaDeSiguientes := listaDeSiguientes ++
+                                 [siguiente(color)]
+        }
+        return(listaDeSiguientes)
+}
+
+// Ejercicio 12 // -------------------------------------------------------------------
+
+function lista_HomologadaPorDebajoDe_A_(lista, umbral, default) {
+    /*
+      PROPÓSITO= Devuelve una lista de números basada en la lista de la siguiente
+      manera: aquellos números de la "lista" dada que son mayores o iguales al "umbral", 
+      permanecen igual, pero aquellos que son menores,son reemplazados por el valor 
+      "default".
+      PRECONDICIONES= Ninguna.
+      PARÁMETROS: listaDeNumeros= Es un valor de tipo Lista de Números, que será
+                  la base de la nueva lista.
+                  umbral= Es un valor de tipo Número.
+                  default= Es un valor de tipo Número.
+      RESULTADO: Una Lista.
+    */
+      /*listaHomologada := []
+        listaDeLosQueFaltan := lista
+        numeroAPasar := primero(listaDeLosQueFaltan)
+        while(not esVacía(listaDeLosQueFaltan)){
+            listaHomologada := listaHomologada ++
+                               [numero_QuePasaPor__(numeroAPasar, umbral, default)]
+            listaDeLosQueFaltan := resto(listaDeLosQueFaltan)
+            numeroAPasar := primero(resto(listaDeLosQueFaltan))
+        }
+        return(listaHomologada)
+      */
+        listaHomologada := []
+        foreach numero in lista {
+            listaHomologada := listaHomologada ++
+                               [numero_QuePasaPor__(numero, umbral, default)]
+        }
+        return(listaHomologada)
+}
+
+function numero_QuePasaPor__(numero, umbral, default) {
+    /*
+      PROPÓSITO: 
+    */
+        return( choose
+                numero when (numero >= umbral)
+                default when(numero < umbral)
+                boom otherwise)
+}
+
+// Ejercicio 13 // -------------------------------------------------------------------
+// a // ------------------------------------------------------------------------------
+
+function numerosParesDe_(lista) {
+    /*
+      PROPÓSTO: Describe la lista que contiene solamente los números pares que se 
+      encuentran en la dada "lista".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Números.
+      RESULTADO: Una Lista de Números.
+      OBSERVACIONES: Recorrido de filtración.
+    */
+        listaDePares := []
+        foreach numero in lista {
+                listaDePares := listaDePares ++
+                                singularSiEsPar_(numero)
+        }
+        return(listaDePares)
+}
+
+function singularSiEsPar_(numero) {
+    /*
+    */
+        return(choose [numero] when(esPar_(numero))
+               [] otherwise)
+}
+
+function esPar_(numero) {
+    /*
+    */
+        numeroActual := (numero div 2) * 2
+        numeroAComparar := numero
+        return(numeroAComparar == numeroActual)
+}
+
+// b // -----------------------------------------------------------------------------
+
+function laLista_SinElElemento_(lista, elementoAQuitar) {
+    /*
+      PROPÓSITO: Describe a la lista resultante de quitar todas las apariciones del dado
+      "elemento" en la dada "lista".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= valor de tipo Lista de Elementos.
+                  *elemento=valor del mismo tipo que los elementos de la dada "lista".
+      RESULTADO: Una Lista.
+      OBSERVACIONES: Es un recorrido de búsqueda por toda la lista.
+    */
+        listaDada := lista
+        listaSinElemento := []
+        while(not esVacía(listaDada)) {
+            listaSinElemento := listaSinElemento ++
+                                elementoDe_SiNoEsElDado_(listaDada, elementoAQuitar)
+            listaDada := resto(listaDada)
+        }
+        return(listaSinElemento)
+}
+
+function elementoDe_SiNoEsElDado_(listaDada, elementoAQuitar) {
+    /*
+      PROPÓSITO: Devuelve la lista singular del primer elemento de la "listaDada" si éste no
+      es igual al dado "elementoAQuitar", caso contrario devuelve una lista vacía.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *listaDada= Es un valor de tipo Lista de Elementos.
+                  *elementoAQuitar= Es un valor de tipo Elemento que puede ser incluido en lista.
+      RESULTADO: Una Lista de Elementos.
+    */
+        return(choose [primero(listaDada)] when (noSonIguales_Y_(primero(listaDada), 
+                                                                elementoAQuitar))
+                      [] otherwise )
+}
+
+function noSonIguales_Y_(elemento1, elemento2) {
+    /*
+      PROPÓSITO: Describe si no son iguales los dados "elemento1" y "elemento2".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *elemento1= Un valor de tipo Elemento que puede ser incluido en una Lista.
+                  *elemento2= Un valor de tipo Elemento que puede ser incluido en una lista.
+      RESULTADO: Un booleano.
+    */
+        return(elemento1 /= elemento2)
+}
+
+/*
+    TRANSFORMACIÓN: [a] -> [b] (dado a, devuelve b. Pueden ser tipos diferentes.)
+    
+    TOTALIZACIÓN: [a] -> número (resultado siempre es número, o parte del elemento
+                                 de la lista.)
+    
+    FILTRO: [a] -> [a] (me quiero quedar con algunos elementos. Nueva lista. Se 
+                        determina por booleano.)
+                        
+    BÚSQUEDA: [a] -> booleano
+    
+    MÁXIMO/MÍNIMO: [a] -> a
+*/
+
+
+// Ejercicio 14 // -------------------------------------------------------------------
+
+function contiene_A_(lista, elemento) {
+    /*
+      PROPÓSITO: Indica si el dado "elemento" se encuentra en la dada "lista".
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Es un valor de tipo Lista de Elementos.
+                  *elemento= Es un Elemento que puede estar en la Lista.
+      RESULTADO: Booleano.
+      OBSERVACIONES: Recorrido de búsqueda.
+    */
+        listaDada := lista
+        while( not esVacía(listaDada) && primero(listaDada) /= elemento ) {
+            listaDada := resto(listaDada)
+        }
+        return(not esVacía(listaDada)) //Si queda vacía, no encontré el elemento.
+        //Si no es vacía, entonces me detuve cuando encontré al elemento.
+}
+
+
+// Ejercicio 15 // -----------------------------------------------------------------
+
+function sinDuplicados_(lista) {
+    /*
+      PROPÓSITO: Describe una lista que contenga los elementos de la dada "lista" 
+      pero sin repetidos si los hay.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *lista= Un valor de tipo Lista de Elementos.
+      RESULTADO: Una Lista.
+    */
+        listaDada := lista
+        listaSinDuplicados := []
+        foreach elemento in listaDada {
+            listaSinDuplicados := listaSinDuplicados ++
+                                  elemento_SingularSinRepetirEn_(primero(listaDada),
+                                                                 listaSinDuplicados)
+            listaDada := resto(listaDada)
+        }
+        return(listaSinDuplicados)
+}
+
+
+function elemento_SingularSinRepetirEn_(elemento, lista) {
+    /*
+    */
+        return( choose [elemento] when(noEsta_En_(elemento, lista))
+                       [] otherwise)
+}
+
+function noEsta_En_(elementoDado, lista1) {
+    /*
+    */
+        listaDada := lista1
+        elementoRepetido := []
+        while(not esVacía(listaDada)) {
+            elementoRepetido := elementoRepetido ++
+                                singularSiSonIguales_Y_(elementoDado, primero(listaDada))
+            listaDada := resto(listaDada)
+        }
+        return(esVacía(elementoRepetido))
+}
+
+function singularSiSonIguales_Y_(elementoAPoner, elementoAComparar) {
+    /*
+    */
+        return( choose [elementoAPoner] when(elementoAPoner == elementoAComparar) 
+                       [] otherwise )
+}
+
+
+// Ejercicio 16 // ------------------------------------------------------------------
+
+function intersecciónDe_Con_(lista1, lista2) {
+    /*
+    */
+}

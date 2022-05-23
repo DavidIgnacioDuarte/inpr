@@ -1,0 +1,48 @@
+program {
+        IrACanalLibreParaDespegar()
+}
+
+procedure IrACanalLibreParaDespegar() {
+    /*
+    */
+          IniciarRecorrido()
+          while (not estoyEnUnCanalLibre()){
+              BuscarCanalVacío()
+          }
+}
+
+procedure BuscarCanalVacío() {
+    /*
+    */
+          if(not hayAvion()){
+            Mover(Norte)
+          }
+          else{
+              Mover(Oeste)
+          }
+}
+
+function estoyEnUnCanalLibre() {
+    /*
+    */
+          return(not puedeMover(Norte) && not hayAvion())
+}
+
+procedure IniciarRecorrido() {
+    /*
+    */
+          IrAlBorde(Este)
+          IrAlBorde(Sur)
+}
+
+function estoyAlFinalDelCanal() {
+    /*
+    */
+        return(not puedeMover(Norte))
+}
+
+function hayAvion() {
+    /*
+    */
+        return(hayBolitas(Azul))
+}

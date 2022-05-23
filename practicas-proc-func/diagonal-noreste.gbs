@@ -1,0 +1,77 @@
+program {
+    /* 
+    Invocación posible. Dibuja diagonal de color negro, con una altura de 4 
+    (4 bolitas negras hacia el Norte) y un ancho de 3 
+    */
+        DibujarBanda_EnDiagonalNEDe_x_(Negro, 4, 3)
+}
+
+procedure DibujarBanda_EnDiagonalNEDe_x_(color, alto, largo) {
+    /*
+      PROPÓSITO: Dibuja una banda diagonal ancha hacia el noreste, de color determinado 
+      por el parámetro color, de altura determinada por el parámetro alto, y de largo determinado
+      por el parámetro largo. 
+      PRECONDICIONES: Las dimensiones del tablero deben respetar, desde la celda inicial:
+                      Filas: 'alto' + ('largo' - 1)
+                      Columnas: 'largo'
+      PARÁMETROS: 
+                *color: Es un color. Determinará el color de la banda.
+                *alto: Es un número. Determinará el alto de la banda.
+                *largo: Es un número. Determinará el largo de la banda.
+    */
+          repeat (largo -1) {
+                DibujarDe_ColumnaDeBanda_(color, alto)
+                PosicionarParaSiguienteColumna_(alto)
+          }
+          DibujarDe_ColumnaDeBanda_(color, alto)
+          VolverAlInicio__(alto, largo)
+}
+
+procedure DibujarDe_ColumnaDeBanda_(color, alto) {
+    /*
+    */
+          repeat(alto -1) {
+                Poner(color)
+                Mover(Norte)
+          }
+          Poner(color)
+}
+
+procedure PosicionarParaSiguienteColumna_(alto) {
+    /*
+    */
+          Mover(Este)
+          repeat (alto -2) {
+              Mover(Sur)
+          }
+}
+
+procedure VolverAlInicio__(alto, largo) {
+    /*
+    */
+          repeat((alto -1 )+(largo -1)){
+              Mover(Sur)
+          }
+          repeat(largo -1){
+              Mover(Oeste)
+          }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

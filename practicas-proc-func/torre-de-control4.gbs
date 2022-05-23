@@ -1,0 +1,92 @@
+program {
+        repeat(cantidadDeCanalesConColisiónInminente()){
+              Poner(Rojo)
+        }
+}
+
+function cantidadDeCanalesConColisiónInminente() {
+    /*
+      PROPÓSITO: Indica la cantidad de canales con colisión inminente.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Un número.
+      OBSERVACIONES: Se considera que hay una colisión posible si en el mismo 
+      carril hay un avión que está despegando debajo de un avión que está aterrizando.
+    */
+        IniciarRecorrido()
+        cantidadDeCanalesConCIActual := 0
+        while (not estoyAlFinalDelAeropuerto()){
+            PasarASiguienteCelda()
+            cantidadDeCanalesConCIActual :=
+                        cantidadDeCanalesConCIActual + canalConColisiónSiHay()
+        }
+        return(cantidadDeCanalesConCIActual + canalConColisiónSiHay())
+}
+
+procedure PasarASiguienteCelda() {
+    /*
+    */
+          if(puedeMover(Norte)){
+              Mover(Norte)
+          }
+          else{
+              Mover(Oeste)
+              IrAlBorde(Sur)
+          }
+}
+
+procedure IniciarRecorrido() {
+    /*
+    */
+          IrAlBorde(Sur)
+          IrAlBorde(Este)
+}
+
+function estoyAlFinalDelAeropuerto() {
+    /*
+    */
+        return(not puedeMover(Norte) && not puedeMover(Oeste))
+}
+
+function canalConColisión() {
+    /*
+    */
+        return((hayAvion() && indicadorDeDespegue()) && (hayAvion() && indicadorDeAterrizaje()))
+}
+
+function canalConColisiónSiHay() {
+    /*
+    */
+        return(choose 1 when (canalConColisión())
+                      0 otherwise)
+}
+
+function indicadorDeDespegue() {
+    /*
+    */
+        return(nroBolitas(Verde)==1)
+}
+
+function indicadorDeAterrizaje() {
+    /*
+    */
+        return(nroBolitas(Rojo)==1)
+}
+
+function hayAvion() {
+    /*
+    */
+        return(hayBolitas(Azul))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

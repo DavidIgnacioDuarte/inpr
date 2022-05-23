@@ -1,0 +1,71 @@
+program {
+        repeat(mayorNroDeVueloDespegando()) {
+              Poner(Rojo)
+        }
+}
+
+function mayorNroDeVueloDespegando() {
+    /*
+      PROPÓSITO: Indica el mayor número de vuelo despegando actualmente en el aeropuerto.
+      PRECONDICIONES: Debe haber al menos un avión despegando en el aeropuerto.
+      OBSERVACIONES: Es un recorrido
+    */
+        IniciarRecorrido()
+        próximoAviónDespegando := 1
+        while(not estoyAlFinalDelAeropuerto()) {
+             próximoAviónDespegando := próximoAviónDespegando + 
+                                       (aviónConMayorNroDeVueloQue_(próximoAviónDespegando))
+             PasarASiguienteCarril()
+        }
+        return(próximoAviónDespegando + (aviónConMayorNroDeVueloQue_(próximoAviónDespegando)))
+}
+
+function aviónConMayorNroDeVueloQue_(próximoAviónDespegando) {
+    /*
+    */
+          return(choose (nroDeVueloDeAvión() - próximoAviónDespegando) when (nroDeVueloDeAvión() > próximoAviónDespegando)
+                 0 otherwise)
+}
+
+procedure IniciarRecorrido() {
+    /*
+    */
+          IrAlBorde(Este)
+          IrAlBorde(Sur)
+}
+
+function estoyAlFinalDelAeropuerto() {
+    /*
+    */
+        return(not (puedeMover(Oeste) || puedeMover(Norte)))
+}
+
+procedure PasarASiguienteCarril() {
+    /*
+    */
+          if(puedeMover(Norte)){
+              Mover(Norte)
+          }
+          else{
+              Mover(Oeste)
+              IrAlBorde(Sur)
+          }
+}
+
+function nroDeVueloDeAvión() {
+    /*
+    */
+        return(nroBolitas(Azul))
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+program {
+        repeat (cantidadDeCanalesLibres()) {
+            Poner(Rojo)
+        }
+}
+
+function cantidadDeCanalesLibres() {
+    /*
+      PROPÓSITO: Indica la cantidad de canales libres (sin aviones).
+      PRECONDICIONES: Ninguna. Función total.
+      RESULTADO: Un número.
+      OBSERVACIONES: Es un recorrido por columnas, que representan canales.
+    */
+        IniciarRecorrido() //Inicializa el recorrido de búsqueda en borde sureste.
+        canalesLibresActualmente := 0 //Todavía no analicé ninguna celda del tablero(o espacio del aeropuerto).
+        while(not estoyAlFinalDelAeropuerto()) { //Mientras no estoy en el borde noroeste.
+             BuscarAvionEnCanal() //Inicia en Borde Sur y busca avion hasta que encuentre o este en Borde Norte.
+             canalesLibresActualmente := canalesLibresActualmente + canalLibreSiHay()
+             //Suma 1 si esta vacio en el borde Norte(no hay avion en canal)
+             PasarASiguienteCanal() //Mueve al Oeste.
+        }
+        BuscarAvionEnCanal() //Analiza última columna.
+        return(canalesLibresActualmente + canalLibreSiHay())
+}
+
+procedure IniciarRecorrido() {
+    /*
+    */
+          IrAlBorde(Este)
+          IrAlBorde(Sur)
+}
+
+function estoyAlFinalDelAeropuerto() {
+    /*
+    */
+        return(not (puedeMover(Oeste) || puedeMover(Norte)))
+}
+
+procedure BuscarAvionEnCanal() {
+    /*
+    */
+          IrAlBorde(Sur)
+          while (not (hayAvion() || estoyAlFinalDelCanal())){
+              Mover(Norte)
+          }
+}
+
+procedure PasarASiguienteCanal(){
+    /*
+    */
+            if(puedeMover(Oeste)){
+              Mover(Oeste)
+            }
+}
+
+function estoyAlFinalDelCanal() {
+    /*
+    */
+        return(not puedeMover(Norte))
+}
+
+function canalLibreSiHay() {
+    /*
+    */
+        return(choose 1 when(not hayAvion())
+                      0 otherwise)
+}
+
+function hayAvion() {
+    /*
+    */
+        return(hayBolitas(Azul))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+program {
+        repeat (cantidadDeAvionesDespegando()) {
+            Poner(Rojo)
+        }
+}
+
+
+procedure IniciarRecorrido() {
+    /*
+    */
+          IrAlBorde(Este)
+          IrAlBorde(Sur)
+}
+
+function estoyAlFinalDelAeropuerto() {
+    /*
+    */
+        return(not (puedeMover(Oeste) || puedeMover(Norte)))
+}
+
+function estoyAlFinalDelCanal() {
+    /*
+    */
+        return(not puedeMover(Norte))
+}
+
+function hayAvion() {
+    /*
+    */
+        return(hayBolitas(Azul))
+}
+
+function indicadorDeDespegue() {
+    /*
+    */
+        return(nroBolitas(Verde)==1)
+}
+
+function cantidadDeAvionesDespegando(){
+    /*
+    */
+          IniciarRecorrido()
+          avionesDespegandoActualmente := 0
+          while (not estoyAlFinalDelAeropuerto()){
+              avionesDespegandoActualmente := avionesDespegandoActualmente + avionDespegandoSiHay()
+              PasarASiguienteCelda()
+          }
+          return (avionesDespegandoActualmente + avionDespegandoSiHay())
+}
+
+function avionDespegandoSiHay() {
+    /*
+    */
+        return(choose 1 when(hayAvion() && indicadorDeDespegue())
+                      0 otherwise)
+}
+
+procedure PasarASiguienteCelda() {
+    /*
+    */
+          if(puedeMover(Norte)){
+              Mover(Norte)
+          }
+          else{
+              Mover(Oeste)
+              IrAlBorde(Sur)
+          }
+}

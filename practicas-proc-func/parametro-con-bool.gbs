@@ -1,0 +1,24 @@
+program {
+        Poner_Si_(Rojo, nroBolitas(Rojo)==0)
+}
+
+procedure Poner_Si_(color, condición) {
+    /*
+      PROPÓSITO: Pone en la celda actual una bolita del color dado por el parámetro color, si se da la
+      condición definida por el parámetro condición.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS:
+                *color: Es un color, que determina la bolita de color a poner.
+                *condición: Es un booleano, que condicionará el propósito.
+    */
+          if(condición){
+            Poner(color)
+          }
+}
+
+
+
+
+
+
+

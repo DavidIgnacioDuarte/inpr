@@ -1,0 +1,81 @@
+/*
+  En Gobstones podemos "testear" nuestras funciones, escribiendo a la misma seguida de un return.
+  Al ejecutar nuestro programa, debemos clickear en la lupita debajo del símbolo "Play".
+  Así, obtendremos el resultado obtenido luego de ejecutarse nuestra función, obteniéndose
+  el tipo de dato junto a su valor.
+*/
+program {
+    return ( sumarYRestar(10, 15, 5) )
+}
+
+
+function hayMasDe5Bolitas(){
+    /* 
+    PROPOSITO: indica que la celda actual hay mas de 5 bolitas en total
+    PRECONDICION: ninguna
+    RESULTADO: devuelve Verdadero si en la celda actual hay mas de 5 bolitas,
+    caso contrario devuelve Falso.
+    */
+    return ( cantidadTotalDeBolitas() > 5 )
+}
+
+function cantidadTotalDeBolitas() {
+    /* 
+    PROPOSITO: describe el total de bolitas en la celda actual
+    PRECONDICION: ninguna
+    RESULTADO: un numero
+    */
+    return  (nroBolitas(Negro) + 
+        nroBolitas(Verde) +
+        nroBolitas(Rojo) +
+        nroBolitas(Azul) 
+    )
+}
+
+
+function estoyEnAlgunBorde() {
+    /*
+    PROPÓSITO: indica si el cabezal se encuentra en algún borde del tablero.
+    PRECONDICION: Ninguna
+    RESULTADO: Un booleano.
+    */
+    return (not puedeMover(Norte)
+        || not puedeMover(Este)
+        || not puedeMover(Sur)
+        || not puedeMover(Oeste)
+    )
+}
+
+function estoyEnBorde(direccion) {
+    /*
+    PROPÓSITO: indica si el cabezal se encuentra en el borde de la dada direccion.
+    PRECONDICION: Ninguna
+    RESULTADO: Un booleano.
+    */
+    return (not puedeMover(direccion))
+}
+
+
+
+function suma(x, y) {
+    return (x + y)
+}
+
+function resta(x, y) {
+    return (x - y)
+}
+
+function sumarYRestar(x, y, z) {
+    /*
+    PROPÓSITO: Dados los parámetros x, y, z, suma los 2 primeros, y resta el tercero.
+    PRECONDICIÓN: Ninguna
+    RESULTADO: Un número
+    */
+    return ( resta(suma(x,y), z) )
+}
+
+
+
+
+
+

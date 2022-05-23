@@ -1,0 +1,27 @@
+program {
+        PonerFlecha_AlNorteSiCorresponde(Rojo)
+}
+
+procedure PonerFlecha_AlNorteSiCorresponde(colorDeLaFlecha) {
+    /*
+      PROPÓSITO: Pone una flecha de color determinado por el parámetro colorDeLaFlecha al Norte si el
+      cabezal puede moverse hacia esa dirección.
+      PRECONDICIÓN: Ninguna.
+      PARÁMETROS:
+                *colorDeLaFlecha: Es un color para representar la flecha.
+    */
+          if(puedeMover(Norte)) {
+            Poner(flecha_(colorDeLaFlecha))
+          }
+}
+
+function flecha_(colorDeLaFlecha) {
+    /*
+      PROPÓSITO: Indica que hay una flecha en la celda actual de color determinado por colorDeLaFlecha.
+      PRECONDICIONES: Ninguna. Función total.
+      PARÁMETROS:
+                *colorDeLaFlecha: Es un color para representar la flecha.
+      RESULTADO: Booleano, V si hay 1 bolita del 'colorDeLaFlecha', F en caso contrario.
+    */
+         return(colorDeLaFlecha)
+}

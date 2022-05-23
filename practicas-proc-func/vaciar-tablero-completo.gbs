@@ -1,0 +1,58 @@
+/*
+  Funciona para cualquier tablero. Colores posibles como argumento -> Rojo, Azul, Negro, Verde.
+*/
+program {
+        VaciarTableroDe_(Rojo)
+}
+
+procedure VaciarTableroDe_(color) {
+    /*PROPÓSITO: Saca todas las bolitas, si hay, del color dado por el parámetro color, del tablero. El 
+      cabezal finaliza en el borde noreste.
+      PRECONDICIONES: Ninguna.
+      PARÁMETROS: *color: valor de color - indica el color a sacar.
+    */
+          IniciarRecorrido ()
+          while (not estoyEnElBordeNoreste()) {
+              SacarTodas_(color)
+              AvanzarASiguienteCelda()
+          }
+          SacarTodas_(color)
+}
+
+procedure IniciarRecorrido () {
+    /*PROPÓSITO: Mueve al cabezal al inicio del recorrido, al borde suroeste.
+      PRECONDICIONES: Ninguna.
+    */
+          IrAlBorde (Oeste)
+          IrAlBorde (Sur)
+}
+
+function estoyEnElBordeNoreste () {
+    /*PROPÓSITO: Indica si el cabezal está en el borde noreste.
+      PRECONDICIONES: Ninguna.
+      RESULTADO: Booleano, V si el cabezal no está en el borde noreste, F en caso contrario.
+    */
+        return (not puedeMover (Norte) && not puedeMover (Este))
+}
+
+procedure SacarTodas_(color) {
+    /*PROPÓSITO: Saca todas las bolitas, si hay, del color dado por el parámetro color de la celda actual.
+      PRECONDICIONES: Ninguna.
+    */
+          while (hayBolitas(color)) {
+              Sacar(color)
+          }
+}
+
+procedure AvanzarASiguienteCelda () {
+    /*PROPÓSITO: Avanza a la siguiente celda que se pueda, de modo que se recorra todo el tablero.
+      PRECONDICIONES: Ninguna.
+    */
+          if (puedeMover(Este)) {
+            Mover(Este)
+          }
+          else {
+              Mover(Norte)
+              IrAlBorde(Oeste)
+          }
+}
